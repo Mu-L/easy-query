@@ -1,22 +1,15 @@
 package com.easy.query.api.proxy.entity.select.extension.queryable2.override;
 
-import com.easy.query.api.proxy.entity.EntityQueryProxyManager;
-import com.easy.query.api.proxy.entity.select.EntityQueryable;
 import com.easy.query.api.proxy.entity.select.EntityQueryable2;
 import com.easy.query.api.proxy.entity.select.abstraction.AbstractEntityQueryable;
 import com.easy.query.api.proxy.entity.select.extension.queryable2.EntityQueryable2Available;
-import com.easy.query.api.proxy.entity.select.impl.EasyEntityQueryable2;
-import com.easy.query.api.proxy.entity.select.join.join2.LeftJoinExpressionJoiner2;
 import com.easy.query.core.api.dynamic.sort.ObjectSort;
-import com.easy.query.core.basic.api.select.ClientQueryable;
 import com.easy.query.core.basic.api.select.ClientQueryable2;
 import com.easy.query.core.enums.sharding.ConnectionModeEnum;
 import com.easy.query.core.expression.builder.core.ValueFilter;
 import com.easy.query.core.expression.lambda.SQLActionExpression1;
-import com.easy.query.core.expression.lambda.SQLActionExpression2;
 import com.easy.query.core.expression.sql.builder.internal.ContextConfigurer;
 import com.easy.query.core.proxy.ProxyEntity;
-import com.easy.query.core.proxy.ProxyEntityAvailable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;

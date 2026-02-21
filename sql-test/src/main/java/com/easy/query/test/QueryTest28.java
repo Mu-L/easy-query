@@ -3,6 +3,7 @@ package com.easy.query.test;
 import com.easy.query.api.proxy.base.ClassProxy;
 import com.easy.query.core.basic.extension.listener.JdbcExecuteAfterArg;
 import com.easy.query.core.configuration.EasyQueryOption;
+import com.easy.query.core.enums.EasyBehaviorEnum;
 import com.easy.query.core.enums.SQLExecuteStrategyEnum;
 import com.easy.query.core.proxy.AggregateQueryable;
 import com.easy.query.core.proxy.core.draft.Draft2;
@@ -118,6 +119,7 @@ public class QueryTest28 extends BaseTest {
         listenerContextManager.startListen(listenerContext);
 
         List<Draft2<Long, BigDecimal>> list = easyEntityQuery.queryable(Topic.class)
+                .configure(s->s.getBehavior().add(EasyBehaviorEnum.ALL_SUB_QUERY_GROUP_JOIN))
                 .asTracking()
                 .leftJoin(BlogEntity.class, (t, b2) -> t.id().eq(b2.id()))
                 .where((t, b2) -> {
@@ -135,6 +137,56 @@ public class QueryTest28 extends BaseTest {
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
         Assert.assertEquals("SELECT COUNT(*) AS `value1`,SUM((CASE WHEN t.`title` LIKE CONCAT('%',?,'%') THEN t.`stars` ELSE ? END)) AS `value2` FROM `t_topic` t LEFT JOIN `t_blog` t1 ON t1.`deleted` = ? AND t.`id` = t1.`id` WHERE t.`title` IS NOT NULL AND t.`create_time` <= ?", jdbcExecuteAfterArg.getBeforeArg().getSql());
         Assert.assertEquals("123(String),0(Integer),false(Boolean),2021-03-04T05:06(LocalDateTime)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
+        listenerContextManager.clear();
+    }
+
+    @Test
+    public void testQueryAggregate1() {
+
+        ListenerContext listenerContext = new ListenerContext();
+        listenerContextManager.startListen(listenerContext);
+
+        List<Draft2<Long, BigDecimal>> list = easyEntityQuery.queryable(Topic.class)
+                .configure(s->s.getBehavior().add(EasyBehaviorEnum.ALL_SUB_QUERY_GROUP_JOIN))
+                .asTracking()
+                .leftJoin(BlogEntity.class, (t, b2) -> t.id().eq(b2.id()))
+                .where((t, b2) -> {
+                    t.title().isNotNull();
+                    t.createTime().le(LocalDateTime.of(2021, 3, 4, 5, 6));
+                })
+                .toAggregate()
+                .select((t_topic, t_blog) -> {
+                    return Select.DRAFT.of(
+                            t_topic.count(),
+                            t_topic.where(s -> s.title().contains("123")).sumBigDecimal(s -> s.stars())
+                    );
+                }).toList();
+        Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
+        JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
+        Assert.assertEquals("SELECT COUNT(*) AS `value1`,SUM((CASE WHEN t.`title` LIKE CONCAT('%',?,'%') THEN t.`stars` ELSE ? END)) AS `value2` FROM `t_topic` t LEFT JOIN `t_blog` t1 ON t1.`deleted` = ? AND t.`id` = t1.`id` WHERE t.`title` IS NOT NULL AND t.`create_time` <= ?", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("123(String),0(Integer),false(Boolean),2021-03-04T05:06(LocalDateTime)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
+        listenerContextManager.clear();
+    }
+
+    @Test
+    public void testQueryAggregate2() {
+
+        ListenerContext listenerContext = new ListenerContext();
+        listenerContextManager.startListen(listenerContext);
+        List<Draft2<Long, BigDecimal>> list1 = easyEntityQuery.queryable(Topic.class)
+                .configure(s -> s.getBehavior().add(EasyBehaviorEnum.ALL_SUB_QUERY_GROUP_JOIN))
+                .where(t_topic -> t_topic.title().contains("123"))
+                .toAggregate()
+                .select(t_topic -> Select.DRAFT.of(
+                        t_topic.count(),
+                        t_topic.avg(s -> s.stars())
+                ))
+                .toList();
+
+        Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
+        JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
+        Assert.assertEquals("SELECT COUNT(*) AS `value1`,AVG(t.`stars`) AS `value2` FROM `t_topic` t WHERE t.`title` LIKE CONCAT('%',?,'%')", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("123(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         listenerContextManager.clear();
     }
 

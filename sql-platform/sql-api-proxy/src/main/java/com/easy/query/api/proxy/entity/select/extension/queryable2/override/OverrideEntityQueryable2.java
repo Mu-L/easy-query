@@ -3,6 +3,7 @@ package com.easy.query.api.proxy.entity.select.extension.queryable2.override;
 import com.easy.query.api.proxy.entity.select.EntityQueryable;
 import com.easy.query.api.proxy.entity.select.EntityQueryable2;
 import com.easy.query.api.proxy.entity.select.extension.queryable2.EntityQueryable2Available;
+import com.easy.query.api.proxy.entity.select.impl.EasyEntityQueryable2;
 import com.easy.query.core.api.client.EasyQueryClient;
 import com.easy.query.core.api.dynamic.sort.ObjectSort;
 import com.easy.query.core.enums.sharding.ConnectionModeEnum;
@@ -10,6 +11,7 @@ import com.easy.query.core.exception.EasyQueryOrderByInvalidOperationException;
 import com.easy.query.core.expression.builder.core.ValueFilter;
 import com.easy.query.core.expression.lambda.SQLActionExpression1;
 import com.easy.query.core.expression.sql.builder.internal.ContextConfigurer;
+import com.easy.query.core.proxy.AggregateQueryable;
 import com.easy.query.core.proxy.ProxyEntity;
 import org.jetbrains.annotations.NotNull;
 
@@ -86,7 +88,6 @@ public interface OverrideEntityQueryable2<T1Proxy extends ProxyEntity<T1Proxy, T
 
     @Override
     EntityQueryable2<T1Proxy, T1, T2Proxy, T2> orderBy(boolean condition, SQLActionExpression1<T1Proxy> selectExpression);
-
 
 
     /**
@@ -234,13 +235,21 @@ public interface OverrideEntityQueryable2<T1Proxy extends ProxyEntity<T1Proxy, T
 
     @Override
     EntityQueryable2<T1Proxy, T1, T2Proxy, T2> asTableLink(Function<String, String> linkAs);
+
     @Override
     EntityQueryable2<T1Proxy, T1, T2Proxy, T2> asTableSegment(BiFunction<String, String, String> segmentAs);
 
     @Override
     EntityQueryable2<T1Proxy, T1, T2Proxy, T2> filterConfigure(ValueFilter valueFilter);
+
     @Override
     EntityQueryable2<T1Proxy, T1, T2Proxy, T2> tableLogicDelete(Supplier<Boolean> tableLogicDel);
+
     @Override
     EntityQueryable2<T1Proxy, T1, T2Proxy, T2> configure(SQLActionExpression1<ContextConfigurer> configurer);
+
+    @Override
+    default EntityQueryable2<AggregateQueryable<T1Proxy, T1>, T1, AggregateQueryable<T2Proxy, T2>, T2> toAggregate() {
+        return new EasyEntityQueryable2<>(AggregateQueryable.of(this.get1Proxy()), AggregateQueryable.of(this.get2Proxy()), this.getQueryable2().getClientQueryable2());
+    }
 }

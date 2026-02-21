@@ -6,6 +6,7 @@ import com.easy.query.core.annotation.EntityProxy;
 import com.easy.query.core.basic.api.select.Query;
 import com.easy.query.core.expression.lambda.SQLFuncExpression1;
 import com.easy.query.core.expression.segment.ColumnSegment;
+import com.easy.query.core.proxy.AggregateQueryable;
 import com.easy.query.core.proxy.PropTypeColumn;
 import com.easy.query.core.proxy.ProxyEntity;
 import com.easy.query.core.proxy.SQLSelectAsExpression;
@@ -66,7 +67,6 @@ public interface EntitySelectable1<T1Proxy extends ProxyEntity<T1Proxy, T1>, T1>
      * @return 返回新的结果操作表达式可以继续筛选处理
      */
     <TRProxy extends ProxyEntity<TRProxy, TR>, TR> EntityQueryable<TRProxy, TR> select(SQLFuncExpression1<T1Proxy, TRProxy> selectExpression);
-
 
     /**
      * 快速读取单列用于返回基本类型或者subQuery等查询

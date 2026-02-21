@@ -1,8 +1,10 @@
 package com.easy.query.api.proxy.entity.select.extension.queryable3.override;
 
 import com.easy.query.api.proxy.entity.select.EntityQueryable;
+import com.easy.query.api.proxy.entity.select.EntityQueryable2;
 import com.easy.query.api.proxy.entity.select.EntityQueryable3;
 import com.easy.query.api.proxy.entity.select.extension.queryable3.EntityQueryable3Available;
+import com.easy.query.api.proxy.entity.select.impl.EasyEntityQueryable3;
 import com.easy.query.core.api.client.EasyQueryClient;
 import com.easy.query.core.api.dynamic.sort.ObjectSort;
 import com.easy.query.core.enums.sharding.ConnectionModeEnum;
@@ -10,6 +12,7 @@ import com.easy.query.core.exception.EasyQueryOrderByInvalidOperationException;
 import com.easy.query.core.expression.builder.core.ValueFilter;
 import com.easy.query.core.expression.lambda.SQLActionExpression1;
 import com.easy.query.core.expression.sql.builder.internal.ContextConfigurer;
+import com.easy.query.core.proxy.AggregateQueryable;
 import com.easy.query.core.proxy.ProxyEntity;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,6 +45,7 @@ public interface OverrideEntityQueryable3<T1Proxy extends ProxyEntity<T1Proxy, T
     default <TProperty> EntityQueryable3<T1Proxy, T1, T2Proxy, T2, T3Proxy, T3> whereByIds(Collection<TProperty> ids) {
         return whereByIds(true, ids);
     }
+
     @Override
     <TProperty> EntityQueryable3<T1Proxy, T1, T2Proxy, T2, T3Proxy, T3> whereByIds(boolean condition, Collection<TProperty> ids);
 
@@ -110,7 +114,6 @@ public interface OverrideEntityQueryable3<T1Proxy extends ProxyEntity<T1Proxy, T
      */
     @Override
     EntityQueryable3<T1Proxy, T1, T2Proxy, T2, T3Proxy, T3> orderByObject(boolean condition, ObjectSort objectSort);
-
 
 
     @NotNull
@@ -238,6 +241,7 @@ public interface OverrideEntityQueryable3<T1Proxy extends ProxyEntity<T1Proxy, T
 
     @Override
     EntityQueryable3<T1Proxy, T1, T2Proxy, T2, T3Proxy, T3> asTableLink(Function<String, String> linkAs);
+
     @Override
     EntityQueryable3<T1Proxy, T1, T2Proxy, T2, T3Proxy, T3> asTableSegment(BiFunction<String, String, String> segmentAs);
 
@@ -246,7 +250,17 @@ public interface OverrideEntityQueryable3<T1Proxy extends ProxyEntity<T1Proxy, T
 
     @Override
     EntityQueryable3<T1Proxy, T1, T2Proxy, T2, T3Proxy, T3> tableLogicDelete(Supplier<Boolean> tableLogicDel);
+
     @Override
     EntityQueryable3<T1Proxy, T1, T2Proxy, T2, T3Proxy, T3> configure(SQLActionExpression1<ContextConfigurer> configurer);
 
+    @Override
+    default EntityQueryable3<AggregateQueryable<T1Proxy, T1>, T1, AggregateQueryable<T2Proxy, T2>, T2, AggregateQueryable<T3Proxy, T3>, T3> toAggregate() {
+        return new EasyEntityQueryable3<>(
+                AggregateQueryable.of(this.get1Proxy())
+                , AggregateQueryable.of(this.get2Proxy())
+                , AggregateQueryable.of(this.get3Proxy())
+                , this.getQueryable3().getClientQueryable3()
+        );
+    }
 }

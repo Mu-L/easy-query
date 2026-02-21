@@ -1,8 +1,11 @@
 package com.easy.query.api.proxy.entity.select.extension.queryable8.override;
 
 import com.easy.query.api.proxy.entity.select.EntityQueryable;
+import com.easy.query.api.proxy.entity.select.EntityQueryable7;
 import com.easy.query.api.proxy.entity.select.EntityQueryable8;
 import com.easy.query.api.proxy.entity.select.extension.queryable8.EntityQueryable8Available;
+import com.easy.query.api.proxy.entity.select.impl.EasyEntityQueryable7;
+import com.easy.query.api.proxy.entity.select.impl.EasyEntityQueryable8;
 import com.easy.query.core.api.client.EasyQueryClient;
 import com.easy.query.core.api.dynamic.sort.ObjectSort;
 import com.easy.query.core.enums.sharding.ConnectionModeEnum;
@@ -10,6 +13,7 @@ import com.easy.query.core.exception.EasyQueryOrderByInvalidOperationException;
 import com.easy.query.core.expression.builder.core.ValueFilter;
 import com.easy.query.core.expression.lambda.SQLActionExpression1;
 import com.easy.query.core.expression.sql.builder.internal.ContextConfigurer;
+import com.easy.query.core.proxy.AggregateQueryable;
 import com.easy.query.core.proxy.ProxyEntity;
 import org.jetbrains.annotations.NotNull;
 
@@ -253,4 +257,26 @@ public interface OverrideEntityQueryable8<T1Proxy extends ProxyEntity<T1Proxy, T
     EntityQueryable8<T1Proxy, T1, T2Proxy, T2, T3Proxy, T3, T4Proxy, T4, T5Proxy, T5, T6Proxy, T6, T7Proxy, T7, T8Proxy, T8> tableLogicDelete(Supplier<Boolean> tableLogicDel);
     @Override
     EntityQueryable8<T1Proxy, T1, T2Proxy, T2, T3Proxy, T3, T4Proxy, T4, T5Proxy, T5, T6Proxy, T6, T7Proxy, T7, T8Proxy, T8> configure(SQLActionExpression1<ContextConfigurer> configurer);
+
+    @Override
+    default EntityQueryable8<AggregateQueryable<T1Proxy, T1>, T1,
+            AggregateQueryable<T2Proxy, T2>, T2,
+            AggregateQueryable<T3Proxy, T3>, T3,
+            AggregateQueryable<T4Proxy, T4>, T4,
+            AggregateQueryable<T5Proxy, T5>, T5,
+            AggregateQueryable<T6Proxy, T6>, T6,
+            AggregateQueryable<T7Proxy, T7>, T7,
+            AggregateQueryable<T8Proxy, T8>, T8> toAggregate() {
+        return new EasyEntityQueryable8<>(
+                AggregateQueryable.of(this.get1Proxy())
+                , AggregateQueryable.of(this.get2Proxy())
+                , AggregateQueryable.of(this.get3Proxy())
+                , AggregateQueryable.of(this.get4Proxy())
+                , AggregateQueryable.of(this.get5Proxy())
+                , AggregateQueryable.of(this.get6Proxy())
+                , AggregateQueryable.of(this.get7Proxy())
+                , AggregateQueryable.of(this.get8Proxy())
+                , this.getQueryable8().getClientQueryable8()
+        );
+    }
 }

@@ -22,7 +22,7 @@ import java.util.function.Function;
  *
  * @author xuejiaming
  */
-public class AggregateQueryable<TProxy extends ProxyEntity<TProxy, TEntity>, TEntity> extends AbstractProxyEntity<TProxy, TEntity> {
+public class AggregateQueryable<TProxy extends ProxyEntity<TProxy, TEntity>, TEntity> extends AbstractProxyEntity<AggregateQueryable<TProxy,TEntity>, TEntity> {
 
     public static <TProxy extends ProxyEntity<TProxy, TEntity>, TEntity> AggregateQueryable<TProxy, TEntity> of(TProxy TProxy) {
         return new AggregateQueryable<>(TProxy);
