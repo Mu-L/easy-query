@@ -11,6 +11,7 @@ import com.easy.query.core.basic.extension.formater.SQLParameterPrintFormat;
 import com.easy.query.core.basic.extension.generated.SaveEntitySetPrimaryKeyGenerator;
 import com.easy.query.core.basic.extension.listener.JdbcExecutorListener;
 import com.easy.query.core.basic.extension.print.JdbcSQLPrinter;
+import com.easy.query.core.basic.extension.schema.RuntimeSchemaProvider;
 import com.easy.query.core.basic.extension.track.TrackManager;
 import com.easy.query.core.basic.jdbc.conn.ConnectionManager;
 import com.easy.query.core.basic.jdbc.executor.EntityExpressionPrepareExecutor;
@@ -124,4 +125,5 @@ public interface QueryRuntimeContext {
     StreamIterableFactory getStreamIterableFactory();
 
     ValueAutoConverterProvider getValueAutoConverterProvider();
+    RuntimeSchemaProvider getRuntimeSchemaProvider();
 }

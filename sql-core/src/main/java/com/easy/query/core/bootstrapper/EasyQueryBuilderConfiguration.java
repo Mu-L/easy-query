@@ -26,6 +26,8 @@ import com.easy.query.core.basic.extension.listener.EmptyJdbcExecutorListener;
 import com.easy.query.core.basic.extension.listener.JdbcExecutorListener;
 import com.easy.query.core.basic.extension.print.DefaultJdbcSQLPrinter;
 import com.easy.query.core.basic.extension.print.JdbcSQLPrinter;
+import com.easy.query.core.basic.extension.schema.DefaultRuntimeSchemaProvider;
+import com.easy.query.core.basic.extension.schema.RuntimeSchemaProvider;
 import com.easy.query.core.basic.extension.track.DefaultTrackManager;
 import com.easy.query.core.basic.extension.track.TrackManager;
 import com.easy.query.core.basic.jdbc.conn.ConnectionManager;
@@ -254,6 +256,7 @@ public class EasyQueryBuilderConfiguration {
                 .replaceService(SaveEntitySetPrimaryKeyGenerator.class, UnSupportSaveEntitySetPrimaryKeyGenerator.class)
                 .replaceService(StreamIterableFactory.class, DefaultStreamIterableFactory.class)
                 .replaceService(ValueAutoConverterProvider.class, DefaultValueAutoConverterProvider.class)
+                .replaceService(RuntimeSchemaProvider.class, DefaultRuntimeSchemaProvider.class)
 //                .replaceService(NavigateNamedGuess.class, DefaultNavigateNamedGuess.class)
                 .replaceService(EasyQueryClient.class, DefaultEasyQueryClient.class);
     }

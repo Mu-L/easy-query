@@ -107,7 +107,8 @@ public class TableSQLExpressionImpl implements EntityTableSQLExpression {
     @Override
     public String getTableName() {
         SQLKeyword keyword = entityTable.getEntityMetadata().getSQLKeyword(sqlKeyword);
-        return EasyToSQLUtil.getSchemaTableName(keyword, entityTable.getEntityMetadata().getSchemaOrNull(), entityTable.getTableName(), schemaAs, tableNameAs);
+        String schema = runtimeContext.getRuntimeSchemaProvider().getSchema(entityTable.getEntityMetadata());
+        return EasyToSQLUtil.getSchemaTableName(keyword, schema, entityTable.getTableName(), schemaAs, tableNameAs);
     }
 
     @Override

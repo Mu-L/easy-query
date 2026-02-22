@@ -13,6 +13,7 @@ import com.easy.query.core.basic.extension.formater.SQLParameterPrintFormat;
 import com.easy.query.core.basic.extension.generated.SaveEntitySetPrimaryKeyGenerator;
 import com.easy.query.core.basic.extension.listener.JdbcExecutorListener;
 import com.easy.query.core.basic.extension.print.JdbcSQLPrinter;
+import com.easy.query.core.basic.extension.schema.RuntimeSchemaProvider;
 import com.easy.query.core.basic.extension.track.TrackManager;
 import com.easy.query.core.basic.jdbc.conn.ConnectionManager;
 import com.easy.query.core.basic.jdbc.executor.EntityExpressionPrepareExecutor;
@@ -114,6 +115,7 @@ public class DefaultEasyQueryRuntimeContext implements QueryRuntimeContext {
     private final SaveEntitySetPrimaryKeyGenerator saveEntitySetPrimaryKeyGenerator;
     private final StreamIterableFactory streamIterableFactory;
     private final ValueAutoConverterProvider valueAutoConverterProvider;
+    private final RuntimeSchemaProvider runtimeSchemaProvider;
 
     public DefaultEasyQueryRuntimeContext(ServiceProvider serviceProvider,
                                           EasyQueryDataSource easyQueryDataSource,
@@ -166,7 +168,8 @@ public class DefaultEasyQueryRuntimeContext implements QueryRuntimeContext {
                                           SmartPredicateAnonymousExpressionBuilderProvider smartPredicateAnonymousExpressionBuilderProvider,
                                           SaveEntitySetPrimaryKeyGenerator saveEntitySetPrimaryKeyGenerator,
                                           StreamIterableFactory streamIterableFactory,
-                                          ValueAutoConverterProvider valueAutoConverterProvider) {
+                                          ValueAutoConverterProvider valueAutoConverterProvider,
+                                          RuntimeSchemaProvider runtimeSchemaProvider) {
         this.serviceProvider = serviceProvider;
         this.easyQueryDataSource = easyQueryDataSource;
         this.easyQueryConfiguration = easyQueryConfiguration;
@@ -219,6 +222,7 @@ public class DefaultEasyQueryRuntimeContext implements QueryRuntimeContext {
         this.saveEntitySetPrimaryKeyGenerator = saveEntitySetPrimaryKeyGenerator;
         this.streamIterableFactory = streamIterableFactory;
         this.valueAutoConverterProvider = valueAutoConverterProvider;
+        this.runtimeSchemaProvider = runtimeSchemaProvider;
     }
 
     @Override
@@ -479,5 +483,10 @@ public class DefaultEasyQueryRuntimeContext implements QueryRuntimeContext {
     @Override
     public ValueAutoConverterProvider getValueAutoConverterProvider() {
         return valueAutoConverterProvider;
+    }
+
+    @Override
+    public RuntimeSchemaProvider getRuntimeSchemaProvider() {
+        return runtimeSchemaProvider;
     }
 }
