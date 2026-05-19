@@ -24,7 +24,7 @@
         <module>sql-platform/sql-api-proxy</module>
         <module>sql-extension</module>
         <module>sql-extension/sql-springboot-starter</module>
-<!--        <module>sql-extension/sql-springboot4-starter</module>-->
+        <module>sql-extension/sql-springboot4-starter</module>
         <module>sql-extension/sql-solon-plugin</module>
         <module>sql-extension/sql-cache</module>
         <module>sql-extension/sql-search</module>

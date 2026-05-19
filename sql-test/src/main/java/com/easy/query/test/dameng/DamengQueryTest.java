@@ -897,7 +897,7 @@ public class DamengQueryTest extends DamengBaseTest {
         Assert.assertEquals(1, listenerContext.getJdbcExecuteAfterArgs().size());
         {
             JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArgs().get(0);
-            Assert.assertEquals("SELECT CASE WHEN EXISTS((SELECT 1 FROM \"t_bank_card\" t2 WHERE t2.\"UID\" = t.\"ID\" AND ROWNUM < 2)) THEN TRUE ELSE FALSE END AS \"VALUE1\",CASE WHEN EXISTS((SELECT 1 FROM \"t_bank_card\" t3 WHERE t3.\"UID\" = t.\"ID\" AND ROWNUM < 2)) THEN FALSE ELSE TRUE END AS \"VALUE2\" FROM \"t_sys_user\" t WHERE EXISTS (SELECT 1 FROM \"t_bank_card\" t1 WHERE t1.\"UID\" = t.\"ID\" AND ROWNUM < 2)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+            Assert.assertEquals("SELECT CASE WHEN EXISTS((SELECT 1 FROM \"t_bank_card\" t2 WHERE t2.\"UID\" = t.\"ID\" AND ROWNUM < 2)) THEN TRUE ELSE FALSE END AS \"VALUE1\",CASE WHEN NOT EXISTS((SELECT 1 FROM \"t_bank_card\" t3 WHERE t3.\"UID\" = t.\"ID\" AND ROWNUM < 2)) THEN TRUE ELSE FALSE END AS \"VALUE2\" FROM \"t_sys_user\" t WHERE EXISTS (SELECT 1 FROM \"t_bank_card\" t1 WHERE t1.\"UID\" = t.\"ID\" AND ROWNUM < 2)", jdbcExecuteAfterArg.getBeforeArg().getSql());
 //            Assert.assertEquals("1(Integer),true(Boolean),false(Boolean),储蓄卡(String),33123(String),true(Boolean),true(Boolean)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         }
         listenerContextManager.clear();

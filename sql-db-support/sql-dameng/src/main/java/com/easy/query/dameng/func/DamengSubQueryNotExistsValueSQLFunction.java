@@ -25,7 +25,7 @@ public class DamengSubQueryNotExistsValueSQLFunction extends AbstractExpressionS
         if(columnExpressions.size()!=1){
             throw new IllegalArgumentException("const arguments != 1");
         }
-        return "CASE WHEN EXISTS({0}) THEN FALSE ELSE TRUE END";
+        return "CASE WHEN NOT EXISTS({0}) THEN TRUE ELSE FALSE END";
     }
 
     @Override
