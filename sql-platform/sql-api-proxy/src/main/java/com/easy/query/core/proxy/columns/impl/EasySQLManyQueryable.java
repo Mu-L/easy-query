@@ -164,14 +164,14 @@ public class EasySQLManyQueryable<T1Proxy extends ProxyEntity<T1Proxy, T1>, T1> 
     public BooleanTypeExpression<Boolean> anyValue() {
         queryableAcceptExpression();
         Query<?> anyQuery = this.easyEntityQueryable.limit(1).select("1");
-        return new BooleanTypeExpressionImpl<>(this.getEntitySQLContext(), null, null, f -> f.exists(anyQuery), Boolean.class);
+        return new BooleanTypeExpressionImpl<>(this.getEntitySQLContext(), null, null, f -> f.existsValue(anyQuery), Boolean.class);
     }
 
     @Override
     public BooleanTypeExpression<Boolean> noneValue() {
         queryableAcceptExpression();
         Query<?> anyQuery = this.easyEntityQueryable.limit(1).select("1");
-        return new BooleanTypeExpressionImpl<>(this.getEntitySQLContext(), null, null, f -> f.not(f.exists(anyQuery)), Boolean.class);
+        return new BooleanTypeExpressionImpl<>(this.getEntitySQLContext(), null, null, f -> f.not(f.existsValue(anyQuery)), Boolean.class);
     }
 
     @Override

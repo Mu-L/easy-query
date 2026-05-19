@@ -207,4 +207,9 @@ public class DamengSQLFuncImpl extends SQLFuncImpl {
     public SQLFunction jsonArrayLength(SQLActionExpression1<ColumnFuncSelector> sqlExpression) {
         return new DamengJSONArrayLengthSQLFunction(getColumnExpressions(sqlExpression));
     }
+
+    @Override
+    public SQLFunction existsValue(SQLActionExpression1<ColumnFuncSelector> sqlExpression) {
+        return new DamengSubQueryExistsSQLFunction(getColumnExpressions(sqlExpression));
+    }
 }
