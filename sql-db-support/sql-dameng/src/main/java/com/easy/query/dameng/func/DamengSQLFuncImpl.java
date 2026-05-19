@@ -7,7 +7,6 @@ import com.easy.query.core.func.SQLFuncImpl;
 import com.easy.query.core.func.SQLFunction;
 import com.easy.query.core.func.column.ColumnExpression;
 import com.easy.query.core.func.column.ColumnFuncSelector;
-import com.easy.query.core.func.def.BooleanSQLFunction;
 import com.easy.query.core.func.def.DistinctDefaultSQLFunction;
 import com.easy.query.core.func.def.enums.DateTimeDurationEnum;
 import com.easy.query.core.func.def.enums.DateTimeUnitEnum;
@@ -210,6 +209,11 @@ public class DamengSQLFuncImpl extends SQLFuncImpl {
 
     @Override
     public SQLFunction existsValue(SQLActionExpression1<ColumnFuncSelector> sqlExpression) {
-        return new DamengSubQueryExistsSQLFunction(getColumnExpressions(sqlExpression));
+        return new DamengSubQueryExistsValueSQLFunction(getColumnExpressions(sqlExpression));
+    }
+
+    @Override
+    public SQLFunction notExistsValue(SQLActionExpression1<ColumnFuncSelector> sqlExpression) {
+        return new DamengSubQueryNotExistsValueSQLFunction(getColumnExpressions(sqlExpression));
     }
 }

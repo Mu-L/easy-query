@@ -138,6 +138,13 @@ public interface SQLFunc extends AggregateSQLFunc, SQLStringFunc, SQLDateTimeFun
     default SQLFunction existsValue(SQLActionExpression1<ColumnFuncSelector> sqlExpression){
         return exists(sqlExpression);
     }
+    default SQLFunction notExistsValue(Query<?> query) {
+        return notExistsValue(o -> o.subQuery(query));
+    }
+
+    default SQLFunction notExistsValue(SQLActionExpression1<ColumnFuncSelector> sqlExpression){
+        return not(exists(sqlExpression));
+    }
 
     /**
      * 取反

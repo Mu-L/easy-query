@@ -12,10 +12,10 @@ import java.util.List;
  *
  * @author xuejiaming
  */
-public class DamengSubQueryExistsSQLFunction extends AbstractExpressionSQLFunction {
+public class DamengSubQueryNotExistsValueSQLFunction extends AbstractExpressionSQLFunction {
     private final List<ColumnExpression> columnExpressions;
 
-    public DamengSubQueryExistsSQLFunction(List<ColumnExpression> columnExpressions) {
+    public DamengSubQueryNotExistsValueSQLFunction(List<ColumnExpression> columnExpressions) {
 
         this.columnExpressions = columnExpressions;
     }
@@ -25,7 +25,7 @@ public class DamengSubQueryExistsSQLFunction extends AbstractExpressionSQLFuncti
         if(columnExpressions.size()!=1){
             throw new IllegalArgumentException("const arguments != 1");
         }
-        return "CASE WHEN EXISTS({0}) THEN TRUE ELSE FALSE END";
+        return "CASE WHEN EXISTS({0}) THEN FALSE ELSE TRUE END";
     }
 
     @Override

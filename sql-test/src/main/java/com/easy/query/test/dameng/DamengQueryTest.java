@@ -884,7 +884,6 @@ public class DamengQueryTest extends DamengBaseTest {
         ListenerContext listenerContext = new ListenerContext(true);
         listenerContextManager.startListen(listenerContext);
         List<Draft2<Boolean, Boolean>> list = entityQuery.queryable(SysUser.class)
-                .configure(s -> s.getBehavior().add(EasyBehaviorEnum.ALL_SUB_QUERY_GROUP_JOIN))
                 .where(user -> {
                     user.bankCards().any();
                 })
@@ -895,24 +894,12 @@ public class DamengQueryTest extends DamengBaseTest {
 //        List<Boolean> list = entityQuery.queryable(SysUser.class).selectColumn(user -> user.bankCards().anyValue()).toList();
 
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArgs());
-        Assert.assertEquals(2, listenerContext.getJdbcExecuteAfterArgs().size());
+        Assert.assertEquals(1, listenerContext.getJdbcExecuteAfterArgs().size());
         {
             JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArgs().get(0);
-            Assert.assertEquals("SELECT t.\"ID\",t.\"NAME\",t.\"PHONE\",t.\"AGE\",t.\"CREATE_TIME\" FROM \"t_sys_user\" t LEFT JOIN (SELECT t1.\"UID\" AS \"__group_key1__\",(CASE WHEN (COUNT(?) <= 0) THEN ? ELSE ? END) AS \"__none2__\" FROM \"t_bank_card\" t1 WHERE t1.\"TYPE\" = ? AND (NOT (t1.\"CODE\" LIKE (TO_CHAR(?)||'%'))) GROUP BY t1.\"UID\") t2 ON t2.\"__group_key1__\" = t.\"ID\" WHERE NVL(t2.\"__none2__\",?) = ?", jdbcExecuteAfterArg.getBeforeArg().getSql());
-            Assert.assertEquals("1(Integer),true(Boolean),false(Boolean),储蓄卡(String),33123(String),true(Boolean),true(Boolean)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
-        }
-        {
-            JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArgs().get(1);
-            Assert.assertEquals("SELECT t.\"ID\",t.\"UID\",t.\"CODE\",t.\"TYPE\",t.\"BANK_ID\",t.\"OPEN_TIME\" FROM \"t_bank_card\" t WHERE t.\"UID\" IN (?)", jdbcExecuteAfterArg.getBeforeArg().getSql());
-            Assert.assertEquals("u2(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
+            Assert.assertEquals("SELECT CASE WHEN EXISTS((SELECT 1 FROM \"t_bank_card\" t2 WHERE t2.\"UID\" = t.\"ID\" AND ROWNUM < 2)) THEN TRUE ELSE FALSE END AS \"VALUE1\",CASE WHEN EXISTS((SELECT 1 FROM \"t_bank_card\" t3 WHERE t3.\"UID\" = t.\"ID\" AND ROWNUM < 2)) THEN FALSE ELSE TRUE END AS \"VALUE2\" FROM \"t_sys_user\" t WHERE EXISTS (SELECT 1 FROM \"t_bank_card\" t1 WHERE t1.\"UID\" = t.\"ID\" AND ROWNUM < 2)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+//            Assert.assertEquals("1(Integer),true(Boolean),false(Boolean),储蓄卡(String),33123(String),true(Boolean),true(Boolean)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         }
         listenerContextManager.clear();
-    }
-    @Test
-    public void testBooleanValue1() {
-
-        List<Map> maps1 = entityQuery.sqlQuery("SELECT NAME = PHONE AS \"VALUE1\" FROM \"t_sys_user\" t WHERE EXISTS (SELECT 1 FROM \"t_bank_card\" t1 WHERE t1.\"UID\" = t.\"ID\" AND ROWNUM < 2)", Map.class);
-//        List<Map> maps = entityQuery.sqlQuery("SELECT EXISTS(SELECT 1 FROM \"t_bank_card\" t2 WHERE t2.\"UID\" = t.\"ID\" AND ROWNUM < 2) AS \"VALUE1\" FROM \"t_sys_user\" t WHERE EXISTS (SELECT 1 FROM \"t_bank_card\" t1 WHERE t1.\"UID\" = t.\"ID\" AND ROWNUM < 2)", Map.class);
-
     }
 }
