@@ -902,4 +902,30 @@ public class DamengQueryTest extends DamengBaseTest {
         }
         listenerContextManager.clear();
     }
+    @Test
+    public void testBooleanValue2() {
+
+        ListenerContext listenerContext = new ListenerContext(true);
+        listenerContextManager.startListen(listenerContext);
+        List<Draft2<Boolean, Boolean>> list = entityQuery.queryable(SysUser.class)
+                .where(user -> {
+                    user.bankCards().any();
+                })
+                .select(user -> Select.DRAFT.of(
+                        user.expression().valueOf(()->{
+                            user.bankCards().any();
+                        }),
+                        user.bankCards().noneValue()
+                )).toList();
+//        List<Boolean> list = entityQuery.queryable(SysUser.class).selectColumn(user -> user.bankCards().anyValue()).toList();
+
+        Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArgs());
+        Assert.assertEquals(1, listenerContext.getJdbcExecuteAfterArgs().size());
+        {
+            JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArgs().get(0);
+            Assert.assertEquals("SELECT (CASE WHEN (EXISTS (SELECT 1 FROM \"t_bank_card\" t2 WHERE t2.\"UID\" = t.\"ID\" AND ROWNUM < 2)) THEN ? ELSE ? END) AS \"VALUE1\",CASE WHEN NOT EXISTS((SELECT 1 FROM \"t_bank_card\" t3 WHERE t3.\"UID\" = t.\"ID\" AND ROWNUM < 2)) THEN TRUE ELSE FALSE END AS \"VALUE2\" FROM \"t_sys_user\" t WHERE EXISTS (SELECT 1 FROM \"t_bank_card\" t1 WHERE t1.\"UID\" = t.\"ID\" AND ROWNUM < 2)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+            Assert.assertEquals("true(Boolean),false(Boolean)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
+        }
+        listenerContextManager.clear();
+    }
 }

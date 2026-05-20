@@ -214,4 +214,14 @@ public class OracleSQLFuncImpl extends SQLFuncImpl {
     public SQLFunction jsonArrayLength(SQLActionExpression1<ColumnFuncSelector> sqlExpression) {
         return new OracleJSONArrayLengthSQLFunction(getColumnExpressions(sqlExpression));
     }
+
+    @Override
+    public SQLFunction existsValue(SQLActionExpression1<ColumnFuncSelector> sqlExpression) {
+        return new OracleSubQueryExistsValueSQLFunction(getColumnExpressions(sqlExpression));
+    }
+
+    @Override
+    public SQLFunction notExistsValue(SQLActionExpression1<ColumnFuncSelector> sqlExpression) {
+        return new OracleSubQueryNotExistsValueSQLFunction(getColumnExpressions(sqlExpression));
+    }
 }
