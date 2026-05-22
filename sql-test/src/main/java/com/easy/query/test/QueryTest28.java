@@ -314,7 +314,7 @@ public class QueryTest28 extends BaseTest {
         }
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-        Assert.assertEquals("SELECT t.`id`,t.`name` FROM `m8_interceptor` t WHERE EXISTS (SELECT 1 FROM `m8_interceptor2` t1 WHERE t1.`aid` = t.`id` LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("SELECT t.`id`,t.`name` FROM `m8_interceptor` t WHERE EXISTS(SELECT 1 FROM `m8_interceptor2` t1 WHERE t1.`aid` = t.`id` LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
 //        Assert.assertEquals("%123%(String),123(String),123(String),123(String),[{\"age\":null,\"name\":\"123\"}](String),%456%(String),{\"age\":1,\"name\":\"1\"}(String),123(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         listenerContextManager.clear();
     }

@@ -169,7 +169,7 @@ public class M8Test1 extends BaseTest {
         listenerContextManager.clear();
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-        Assert.assertEquals("SELECT t.`user_id`,t.`user_name`,t.`user_age`,t.`create_time`,t.`book_ids` FROM `m8_user_book_ids` t WHERE EXISTS (SELECT 1 FROM `m8_user_book2` t1 WHERE FIND_IN_SET(t1.`book_id`,t.`book_ids`) AND t1.`book_price` >= ? LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("SELECT t.`user_id`,t.`user_name`,t.`user_age`,t.`create_time`,t.`book_ids` FROM `m8_user_book_ids` t WHERE EXISTS(SELECT 1 FROM `m8_user_book2` t1 WHERE FIND_IN_SET(t1.`book_id`,t.`book_ids`) AND t1.`book_price` >= ? LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
         Assert.assertEquals("0(BigDecimal)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
 
     }

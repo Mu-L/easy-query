@@ -126,7 +126,7 @@ public class CTETest extends BaseTest {
         listenerContextManager.clear();
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-        Assert.assertEquals("WITH `m8_user_temp` AS (SELECT t.`id`,t.`name` FROM `m8_user` t WHERE t.`age` IS NULL) SELECT t2.`id`,t2.`name` FROM `m8_user_temp` t2 WHERE EXISTS (SELECT 1 FROM `m8_role` t3 WHERE EXISTS (SELECT 1 FROM `m8_user_role` t4 WHERE t4.`role_id` = t3.`id` AND t4.`user_id` = t2.`id` LIMIT 1) AND t3.`name` LIKE CONCAT('%',?,'%') LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("WITH `m8_user_temp` AS (SELECT t.`id`,t.`name` FROM `m8_user` t WHERE t.`age` IS NULL) SELECT t2.`id`,t2.`name` FROM `m8_user_temp` t2 WHERE EXISTS(SELECT 1 FROM `m8_role` t3 WHERE EXISTS(SELECT 1 FROM `m8_user_role` t4 WHERE t4.`role_id` = t3.`id` AND t4.`user_id` = t2.`id` LIMIT 1) AND t3.`name` LIKE CONCAT('%',?,'%') LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
         Assert.assertEquals("123(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
 
     }

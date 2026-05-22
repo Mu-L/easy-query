@@ -274,7 +274,7 @@ public class MsSQLQueryTest extends MsSQLBaseTest {
                 }).executeRows();
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-        Assert.assertEquals("UPDATE t SET t.[Title] = ? FROM [MyTopic] t WHERE t.[Id] IS NULL AND EXISTS (SELECT 1 FROM [MyTopic] t1 WHERE t1.[Id] = t.[Id])", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("UPDATE t SET t.[Title] = ? FROM [MyTopic] t WHERE t.[Id] IS NULL AND EXISTS(SELECT 1 FROM [MyTopic] t1 WHERE t1.[Id] = t.[Id])", jdbcExecuteAfterArg.getBeforeArg().getSql());
         Assert.assertEquals("123xx(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         listenerContextManager.clear();
     }
@@ -664,7 +664,7 @@ public class MsSQLQueryTest extends MsSQLBaseTest {
         Assert.assertEquals(2, listenerContext.getJdbcExecuteAfterArgs().size());
         {
             JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArgs().get(0);
-            Assert.assertEquals("SELECT t.[Id],t.[Name],t.[Phone],t.[Age],t.[CreateTime] FROM [t_sys_user] t WHERE NOT ( EXISTS (SELECT TOP 1 1 FROM [t_bank_card] t1 WHERE t1.[Uid] = t.[Id] AND t1.[Type] = ? AND (NOT (t1.[Code] LIKE (CAST(? AS NVARCHAR(MAX))+'%')))))", jdbcExecuteAfterArg.getBeforeArg().getSql());
+            Assert.assertEquals("SELECT t.[Id],t.[Name],t.[Phone],t.[Age],t.[CreateTime] FROM [t_sys_user] t WHERE NOT (EXISTS(SELECT TOP 1 1 FROM [t_bank_card] t1 WHERE t1.[Uid] = t.[Id] AND t1.[Type] = ? AND (NOT (t1.[Code] LIKE (CAST(? AS NVARCHAR(MAX))+'%')))))", jdbcExecuteAfterArg.getBeforeArg().getSql());
             Assert.assertEquals("储蓄卡(String),33123(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         }
         {
@@ -696,7 +696,7 @@ public class MsSQLQueryTest extends MsSQLBaseTest {
         Assert.assertEquals(2, listenerContext.getJdbcExecuteAfterArgs().size());
         {
             JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArgs().get(0);
-            Assert.assertEquals("SELECT t.[Id],t.[Name],t.[Phone],t.[Age],t.[CreateTime] FROM [t_sys_user] t WHERE NOT ( EXISTS (SELECT TOP 1 1 FROM [t_bank_card] t1 WHERE t1.[Uid] = t.[Id] AND t1.[Type] = ? AND (NOT (ISNULL(t1.[Code],?) LIKE (CAST(? AS NVARCHAR(MAX))+'%')))))", jdbcExecuteAfterArg.getBeforeArg().getSql());
+            Assert.assertEquals("SELECT t.[Id],t.[Name],t.[Phone],t.[Age],t.[CreateTime] FROM [t_sys_user] t WHERE NOT (EXISTS(SELECT TOP 1 1 FROM [t_bank_card] t1 WHERE t1.[Uid] = t.[Id] AND t1.[Type] = ? AND (NOT (ISNULL(t1.[Code],?) LIKE (CAST(? AS NVARCHAR(MAX))+'%')))))", jdbcExecuteAfterArg.getBeforeArg().getSql());
             Assert.assertEquals("储蓄卡(String),(String),33123(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         }
         {
@@ -732,7 +732,7 @@ public class MsSQLQueryTest extends MsSQLBaseTest {
         Assert.assertEquals(2, listenerContext.getJdbcExecuteAfterArgs().size());
         {
             JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArgs().get(0);
-            Assert.assertEquals("SELECT t.[Id],t.[Name],t.[Phone],t.[Age],t.[CreateTime] FROM [t_sys_user] t WHERE NOT ( EXISTS (SELECT TOP 1 1 FROM [t_bank_card] t1 WHERE t1.[Uid] = t.[Id] AND t1.[Type] = ? AND (NOT (t1.[Code] LIKE (CAST(? AS NVARCHAR(MAX))+'%') AND t1.[Code] LIKE (CAST(? AS NVARCHAR(MAX))+'%')))))", jdbcExecuteAfterArg.getBeforeArg().getSql());
+            Assert.assertEquals("SELECT t.[Id],t.[Name],t.[Phone],t.[Age],t.[CreateTime] FROM [t_sys_user] t WHERE NOT (EXISTS(SELECT TOP 1 1 FROM [t_bank_card] t1 WHERE t1.[Uid] = t.[Id] AND t1.[Type] = ? AND (NOT (t1.[Code] LIKE (CAST(? AS NVARCHAR(MAX))+'%') AND t1.[Code] LIKE (CAST(? AS NVARCHAR(MAX))+'%')))))", jdbcExecuteAfterArg.getBeforeArg().getSql());
             Assert.assertEquals("储蓄卡(String),33123(String),45678(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         }
         {

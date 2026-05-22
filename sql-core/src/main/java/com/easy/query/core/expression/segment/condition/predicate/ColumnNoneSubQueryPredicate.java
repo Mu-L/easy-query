@@ -42,7 +42,7 @@ public class ColumnNoneSubQueryPredicate implements SubQueryPredicate {
     public String toSQL(ToSQLContext toSQLContext) {
 
         StringBuilder sql = new StringBuilder();
-        sql.append("NOT ( ").append(SQLPredicateCompareEnum.EXISTS).append(" (");
+        sql.append("NOT (").append(SQLPredicateCompareEnum.EXISTS).append("(");
         String subQueryableSQL = subQuery.toSQL(toSQLContext);
         sql.append(subQueryableSQL).append("))");
         return sql.toString();

@@ -162,16 +162,18 @@ public class EasySQLManyQueryable<T1Proxy extends ProxyEntity<T1Proxy, T1>, T1> 
 
     @Override
     public BooleanTypeExpression<Boolean> anyValue() {
-        queryableAcceptExpression();
-        Query<?> anyQuery = this.easyEntityQueryable.limit(1).select("1");
-        return new BooleanTypeExpressionImpl<>(this.getEntitySQLContext(), null, null, f -> f.existsValue(anyQuery), Boolean.class);
+//        queryableAcceptExpression();
+//        Query<?> anyQuery = this.easyEntityQueryable.limit(1).select("1");
+        return Expression.of(this.getEntitySQLContext()).valueOf(this::any);
+//        return new BooleanTypeExpressionImpl<>(this.getEntitySQLContext(), null, null, f -> f.existsValue(anyQuery), Boolean.class);
     }
 
     @Override
     public BooleanTypeExpression<Boolean> noneValue() {
-        queryableAcceptExpression();
-        Query<?> anyQuery = this.easyEntityQueryable.limit(1).select("1");
-        return new BooleanTypeExpressionImpl<>(this.getEntitySQLContext(), null, null, f -> f.notExistsValue(anyQuery), Boolean.class);
+//        queryableAcceptExpression();
+//        Query<?> anyQuery = this.easyEntityQueryable.limit(1).select("1");
+//        return new BooleanTypeExpressionImpl<>(this.getEntitySQLContext(), null, null, f -> f.notExistsValue(anyQuery), Boolean.class);
+        return Expression.of(this.getEntitySQLContext()).valueOf(this::none);
     }
 
     @Override

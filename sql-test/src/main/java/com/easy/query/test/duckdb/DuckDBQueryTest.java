@@ -403,7 +403,7 @@ public class DuckDBQueryTest  extends DuckDBBaseTest{
 
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-        Assert.assertEquals("SELECT t.\"id\",t.\"name\",t.\"age\" FROM read_xlsx('./ducktest.xlsx',sheet='Sheet1') t WHERE EXISTS (SELECT 1 FROM read_xlsx('./ducktest.xlsx',sheet='Sheet2') t1 WHERE t1.\"uid\" = t.\"id\" AND t1.\"id\" = ? LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("SELECT t.\"id\",t.\"name\",t.\"age\" FROM read_xlsx('./ducktest.xlsx',sheet='Sheet1') t WHERE EXISTS(SELECT 1 FROM read_xlsx('./ducktest.xlsx',sheet='Sheet2') t1 WHERE t1.\"uid\" = t.\"id\" AND t1.\"id\" = ? LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
         Assert.assertEquals("2(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
     }
     @Test

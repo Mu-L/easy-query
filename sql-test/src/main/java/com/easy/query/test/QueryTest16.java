@@ -79,7 +79,7 @@ public class QueryTest16 extends BaseTest {
         }
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-        Assert.assertEquals("SELECT t.`id`,t.`company_id`,t.`name`,t.`age`,t.`create_time` FROM `t_user` t WHERE EXISTS (SELECT 1 FROM `t_role` t1 WHERE EXISTS (SELECT 1 FROM `t_user_role` t2 WHERE t2.`role_id` = t1.`id` AND t2.`user_id` = t.`id` LIMIT 1) AND EXISTS (SELECT 1 FROM `t_menu` t3 WHERE EXISTS (SELECT 1 FROM `t_role_menu` t4 WHERE t4.`menu_id` = t3.`id` AND t4.`role_id` = t1.`id` LIMIT 1) AND t3.`route` = ? LIMIT 1) LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("SELECT t.`id`,t.`company_id`,t.`name`,t.`age`,t.`create_time` FROM `t_user` t WHERE EXISTS(SELECT 1 FROM `t_role` t1 WHERE EXISTS(SELECT 1 FROM `t_user_role` t2 WHERE t2.`role_id` = t1.`id` AND t2.`user_id` = t.`id` LIMIT 1) AND EXISTS(SELECT 1 FROM `t_menu` t3 WHERE EXISTS(SELECT 1 FROM `t_role_menu` t4 WHERE t4.`menu_id` = t3.`id` AND t4.`role_id` = t1.`id` LIMIT 1) AND t3.`route` = ? LIMIT 1) LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
         Assert.assertEquals("/admin(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         listenerContextManager.clear();
 
@@ -172,7 +172,7 @@ public class QueryTest16 extends BaseTest {
         }
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-        Assert.assertEquals("SELECT t.`id`,t.`company_id`,t.`name`,t.`age`,t.`create_time` FROM `t_user` t LEFT JOIN (SELECT t2.`user_id` AS `__group_key1__`,(COUNT(?) > 0) AS `__any2__` FROM `t_role` t1 INNER JOIN `t_user_role` t2 ON t1.`id` = t2.`role_id` WHERE EXISTS (SELECT 1 FROM `t_menu` t5 WHERE EXISTS (SELECT 1 FROM `t_role_menu` t6 WHERE t6.`menu_id` = t5.`id` AND t6.`role_id` = t1.`id` LIMIT 1) AND t5.`route` = ? LIMIT 1) GROUP BY t2.`user_id`) t4 ON t4.`__group_key1__` = t.`id` WHERE IFNULL(t4.`__any2__`,?) = ?", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("SELECT t.`id`,t.`company_id`,t.`name`,t.`age`,t.`create_time` FROM `t_user` t LEFT JOIN (SELECT t2.`user_id` AS `__group_key1__`,(COUNT(?) > 0) AS `__any2__` FROM `t_role` t1 INNER JOIN `t_user_role` t2 ON t1.`id` = t2.`role_id` WHERE EXISTS(SELECT 1 FROM `t_menu` t5 WHERE EXISTS(SELECT 1 FROM `t_role_menu` t6 WHERE t6.`menu_id` = t5.`id` AND t6.`role_id` = t1.`id` LIMIT 1) AND t5.`route` = ? LIMIT 1) GROUP BY t2.`user_id`) t4 ON t4.`__group_key1__` = t.`id` WHERE IFNULL(t4.`__any2__`,?) = ?", jdbcExecuteAfterArg.getBeforeArg().getSql());
         Assert.assertEquals("1(Integer),/admin(String),false(Boolean),true(Boolean)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         listenerContextManager.clear();
     }
@@ -487,7 +487,7 @@ public class QueryTest16 extends BaseTest {
 //                        user.id(),
 //                        user.roles().count()
 //                )).toList();
-////        ==> Preparing: SELECT t.`id` AS `value1`,(SELECT COUNT(*) FROM `t_role` t1 WHERE EXISTS (SELECT 1 FROM `t_user` t2 WHERE EXISTS (SELECT 1 FROM `t_user_role` t3 WHERE t3.`user_id` = t2.`id` AND t3.`role_id` = t1.`id` LIMIT 1) AND t2.`id` = t.`id` LIMIT 1)) AS `value2` FROM `t_user` t WHERE t.`name` LIKE ?
+////        ==> Preparing: SELECT t.`id` AS `value1`,(SELECT COUNT(*) FROM `t_role` t1 WHERE EXISTS(SELECT 1 FROM `t_user` t2 WHERE EXISTS(SELECT 1 FROM `t_user_role` t3 WHERE t3.`user_id` = t2.`id` AND t3.`role_id` = t1.`id` LIMIT 1) AND t2.`id` = t.`id` LIMIT 1)) AS `value2` FROM `t_user` t WHERE t.`name` LIKE ?
 ////==> Parameters: %小明%(String)
 //
 //
@@ -913,7 +913,7 @@ public class QueryTest16 extends BaseTest {
             }
             Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
             JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-            Assert.assertEquals("SELECT t.`id`,t.`company_id`,t.`name`,t.`age`,t.`create_time` FROM `t_user` t WHERE (t.`name` LIKE ? OR EXISTS (SELECT 1 FROM `t_role` t1 WHERE EXISTS (SELECT 1 FROM `t_user_role` t2 WHERE t2.`role_id` = t1.`id` AND t2.`user_id` = t.`id` LIMIT 1) AND t1.`name` LIKE ? LIMIT 1))", jdbcExecuteAfterArg.getBeforeArg().getSql());
+            Assert.assertEquals("SELECT t.`id`,t.`company_id`,t.`name`,t.`age`,t.`create_time` FROM `t_user` t WHERE (t.`name` LIKE ? OR EXISTS(SELECT 1 FROM `t_role` t1 WHERE EXISTS(SELECT 1 FROM `t_user_role` t2 WHERE t2.`role_id` = t1.`id` AND t2.`user_id` = t.`id` LIMIT 1) AND t1.`name` LIKE ? LIMIT 1))", jdbcExecuteAfterArg.getBeforeArg().getSql());
             Assert.assertEquals("%小明%(String),%管理员%(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
             listenerContextManager.clear();
         }
@@ -1001,7 +1001,7 @@ public class QueryTest16 extends BaseTest {
             Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
             JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
 //            Assert.assertEquals("SELECT t.`id` AS `value1`,(NOT EXISTS((SELECT 1 FROM `t_user` t2 WHERE t2.`company_id` = t.`id` LIMIT 1))) AS `value2` FROM `t_company` t WHERE t.`name` LIKE ?", jdbcExecuteAfterArg.getBeforeArg().getSql());
-            Assert.assertEquals("SELECT t.`id` AS `value1`,(NOT (EXISTS((SELECT 1 FROM `t_user` t1 WHERE t1.`company_id` = t.`id` LIMIT 1)))) AS `value2` FROM `t_company` t WHERE t.`name` LIKE ?", jdbcExecuteAfterArg.getBeforeArg().getSql());
+            Assert.assertEquals("SELECT t.`id` AS `value1`,(NOT (EXISTS(SELECT 1 FROM `t_user` t1 WHERE t1.`company_id` = t.`id` LIMIT 1))) AS `value2` FROM `t_company` t WHERE t.`name` LIKE ?", jdbcExecuteAfterArg.getBeforeArg().getSql());
             Assert.assertEquals("%xx公司%(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
             listenerContextManager.clear();
         }
@@ -1023,7 +1023,7 @@ public class QueryTest16 extends BaseTest {
             Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
             JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
 //            Assert.assertEquals("SELECT t.`id` AS `value1`,EXISTS((SELECT 1 FROM `t_user` t2 WHERE t2.`company_id` = t.`id` LIMIT 1)) AS `value2` FROM `t_company` t WHERE t.`name` LIKE ?", jdbcExecuteAfterArg.getBeforeArg().getSql());
-            Assert.assertEquals("SELECT t.`id` AS `value1`,EXISTS((SELECT 1 FROM `t_user` t1 WHERE t1.`company_id` = t.`id` LIMIT 1)) AS `value2` FROM `t_company` t WHERE t.`name` LIKE ?", jdbcExecuteAfterArg.getBeforeArg().getSql());
+            Assert.assertEquals("SELECT t.`id` AS `value1`,(EXISTS(SELECT 1 FROM `t_user` t1 WHERE t1.`company_id` = t.`id` LIMIT 1)) AS `value2` FROM `t_company` t WHERE t.`name` LIKE ?", jdbcExecuteAfterArg.getBeforeArg().getSql());
             Assert.assertEquals("%xx公司%(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
             listenerContextManager.clear();
         }
@@ -1134,7 +1134,7 @@ public class QueryTest16 extends BaseTest {
             }
             Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
             JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-            Assert.assertEquals("SELECT t.`id`,t.`name`,t.`create_time` FROM `t_company` t WHERE EXISTS (SELECT 1 FROM `t_user` t1 WHERE t1.`company_id` = t.`id` AND t1.`age` > ? LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+            Assert.assertEquals("SELECT t.`id`,t.`name`,t.`create_time` FROM `t_company` t WHERE EXISTS(SELECT 1 FROM `t_user` t1 WHERE t1.`company_id` = t.`id` AND t1.`age` > ? LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
             Assert.assertEquals("18(Integer)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
             listenerContextManager.clear();
         }
@@ -1151,7 +1151,7 @@ public class QueryTest16 extends BaseTest {
             }
             Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
             JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-            Assert.assertEquals("SELECT t.`id`,t.`name`,t.`create_time` FROM `t_company` t WHERE EXISTS (SELECT 1 FROM `t_user` t1 WHERE t1.`company_id` = t.`id` AND t1.`age` > ? LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+            Assert.assertEquals("SELECT t.`id`,t.`name`,t.`create_time` FROM `t_company` t WHERE EXISTS(SELECT 1 FROM `t_user` t1 WHERE t1.`company_id` = t.`id` AND t1.`age` > ? LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
             Assert.assertEquals("18(Integer)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
             listenerContextManager.clear();
         }
@@ -1241,7 +1241,7 @@ public class QueryTest16 extends BaseTest {
         }
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-        Assert.assertEquals("SELECT t.`id`,t.`company_id`,t.`name`,t.`age`,t.`create_time` FROM `t_user` t WHERE EXISTS (SELECT 1 FROM `t_role` myRole WHERE EXISTS (SELECT 1 FROM `t_user_role` t2 WHERE t2.`role_id` = myRole.`id` AND t2.`user_id` = t.`id` LIMIT 1) AND myRole.`name` LIKE ? AND (myRole.`create_time` >= ? AND myRole.`create_time` <= ?) LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("SELECT t.`id`,t.`company_id`,t.`name`,t.`age`,t.`create_time` FROM `t_user` t WHERE EXISTS(SELECT 1 FROM `t_role` myRole WHERE EXISTS(SELECT 1 FROM `t_user_role` t2 WHERE t2.`role_id` = myRole.`id` AND t2.`user_id` = t.`id` LIMIT 1) AND myRole.`name` LIKE ? AND (myRole.`create_time` >= ? AND myRole.`create_time` <= ?) LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
         Assert.assertEquals("%查询的角色名%(String),2020-01-01T01:02(LocalDateTime),2026-01-01T01:02(LocalDateTime)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         listenerContextManager.clear();
     }
@@ -1269,7 +1269,7 @@ public class QueryTest16 extends BaseTest {
         }
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-        Assert.assertEquals("SELECT t.`id`,t.`company_id`,t.`name`,t.`age`,t.`create_time` FROM `t_user` t LEFT JOIN `t_company` t1 ON t1.`id` = t.`company_id` WHERE t1.`name` LIKE ? AND EXISTS (SELECT 1 FROM `t_role` myRole WHERE EXISTS (SELECT 1 FROM `t_user_role` t3 WHERE t3.`role_id` = myRole.`id` AND t3.`user_id` = t.`id` LIMIT 1) AND myRole.`name` LIKE ? AND (myRole.`create_time` >= ? AND myRole.`create_time` <= ?) LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("SELECT t.`id`,t.`company_id`,t.`name`,t.`age`,t.`create_time` FROM `t_user` t LEFT JOIN `t_company` t1 ON t1.`id` = t.`company_id` WHERE t1.`name` LIKE ? AND EXISTS(SELECT 1 FROM `t_role` myRole WHERE EXISTS(SELECT 1 FROM `t_user_role` t3 WHERE t3.`role_id` = myRole.`id` AND t3.`user_id` = t.`id` LIMIT 1) AND myRole.`name` LIKE ? AND (myRole.`create_time` >= ? AND myRole.`create_time` <= ?) LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
         Assert.assertEquals("%123%(String),%查询的角色名%(String),2020-01-01T01:02(LocalDateTime),2026-01-01T01:02(LocalDateTime)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         listenerContextManager.clear();
     }

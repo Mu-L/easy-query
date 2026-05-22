@@ -173,7 +173,7 @@ easyEntityQuery.insertable(tbAccounts).executeRows();
                     }).toList();
             Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
             JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-            Assert.assertEquals("SELECT t.id,t.uid,t.uname,t.price FROM t_tb_order t WHERE EXISTS (SELECT 1 FROM t_tb_account t1 WHERE t1.uid = t.uid AND t1.uname LIKE ? LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+            Assert.assertEquals("SELECT t.id,t.uid,t.uname,t.price FROM t_tb_order t WHERE EXISTS(SELECT 1 FROM t_tb_account t1 WHERE t1.uid = t.uid AND t1.uname LIKE ? LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
             Assert.assertEquals("%小明%(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
             listenerContextManager.clear();
         }
@@ -187,7 +187,7 @@ easyEntityQuery.insertable(tbAccounts).executeRows();
                     }).toList();
             Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
             JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-            Assert.assertEquals("SELECT t.id,t.uid,t.uname,t.price FROM t_tb_order t WHERE EXISTS (SELECT 1 FROM t_tb_account t1 WHERE (t1.uid = t.uid AND t1.uname = ?) AND t1.uname LIKE ? LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+            Assert.assertEquals("SELECT t.id,t.uid,t.uname,t.price FROM t_tb_order t WHERE EXISTS(SELECT 1 FROM t_tb_account t1 WHERE (t1.uid = t.uid AND t1.uname = ?) AND t1.uname LIKE ? LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
             Assert.assertEquals("小明(String),%小明%(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
             listenerContextManager.clear();
         }
@@ -203,7 +203,7 @@ easyEntityQuery.insertable(tbAccounts).executeRows();
             {
 
                 JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArgs().get(0);
-                Assert.assertEquals("SELECT t.id,t.uid,t.uname,t.price FROM t_tb_order t WHERE EXISTS (SELECT 1 FROM t_tb_account t1 WHERE (t1.uid = t.uid AND t1.uname = ?) AND t1.uname LIKE ? LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+                Assert.assertEquals("SELECT t.id,t.uid,t.uname,t.price FROM t_tb_order t WHERE EXISTS(SELECT 1 FROM t_tb_account t1 WHERE (t1.uid = t.uid AND t1.uname = ?) AND t1.uname LIKE ? LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
                 Assert.assertEquals("小明(String),%小明%(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
             }
             {

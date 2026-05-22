@@ -920,7 +920,7 @@ public class ShardingTest extends ShardingBaseTest {
         String sql = where.toSQL();
         //tosql是不会对表进行分片的展示
         System.out.println(sql);
-        Assert.assertEquals("SELECT t.`id`,t.`stars`,t.`title`,t.`create_time` FROM `t_topic` t WHERE t.`id` = ? AND EXISTS (SELECT 1 FROM `t_topic_sharding_time` t1 WHERE (t1.`create_time` > ? AND t1.`create_time` < ?) AND t1.`id` = t.`id`)", sql);
+        Assert.assertEquals("SELECT t.`id`,t.`stars`,t.`title`,t.`create_time` FROM `t_topic` t WHERE t.`id` = ? AND EXISTS(SELECT 1 FROM `t_topic_sharding_time` t1 WHERE (t1.`create_time` > ? AND t1.`create_time` < ?) AND t1.`id` = t.`id`)", sql);
         List<Topic> list1 = where.toList();
 
         Assert.assertEquals(0, list1.size());

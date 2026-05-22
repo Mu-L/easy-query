@@ -757,7 +757,7 @@ public class QueryTest19 extends PgSQLBaseTest {
         Assert.assertEquals(2, listenerContext.getJdbcExecuteAfterArgs().size());
         {
             JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArgs().get(0);
-            Assert.assertEquals("SELECT t.\"id\",t.\"name\",t.\"phone\",t.\"age\" FROM \"doc_user\" t WHERE NOT ( EXISTS (SELECT 1 FROM \"doc_bank_card\" t1 WHERE t1.\"uid\" = t.\"id\" AND t1.\"type\" = ? AND (NOT (t1.\"code\" LIKE CONCAT((?)::TEXT,'%'))) LIMIT 1))", jdbcExecuteAfterArg.getBeforeArg().getSql());
+            Assert.assertEquals("SELECT t.\"id\",t.\"name\",t.\"phone\",t.\"age\" FROM \"doc_user\" t WHERE NOT (EXISTS(SELECT 1 FROM \"doc_bank_card\" t1 WHERE t1.\"uid\" = t.\"id\" AND t1.\"type\" = ? AND (NOT (t1.\"code\" LIKE CONCAT((?)::TEXT,'%'))) LIMIT 1))", jdbcExecuteAfterArg.getBeforeArg().getSql());
             Assert.assertEquals("储蓄卡(String),33123(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         }
         {
@@ -788,7 +788,7 @@ public class QueryTest19 extends PgSQLBaseTest {
         Assert.assertEquals(2, listenerContext.getJdbcExecuteAfterArgs().size());
         {
             JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArgs().get(0);
-            Assert.assertEquals("SELECT t.\"id\",t.\"name\",t.\"phone\",t.\"age\" FROM \"doc_user\" t WHERE NOT ( EXISTS (SELECT 1 FROM \"doc_bank_card\" t1 WHERE t1.\"uid\" = t.\"id\" AND t1.\"type\" = ? AND (NOT (COALESCE(t1.\"code\",?) LIKE CONCAT((?)::TEXT,'%'))) LIMIT 1))", jdbcExecuteAfterArg.getBeforeArg().getSql());
+            Assert.assertEquals("SELECT t.\"id\",t.\"name\",t.\"phone\",t.\"age\" FROM \"doc_user\" t WHERE NOT (EXISTS(SELECT 1 FROM \"doc_bank_card\" t1 WHERE t1.\"uid\" = t.\"id\" AND t1.\"type\" = ? AND (NOT (COALESCE(t1.\"code\",?) LIKE CONCAT((?)::TEXT,'%'))) LIMIT 1))", jdbcExecuteAfterArg.getBeforeArg().getSql());
             Assert.assertEquals("储蓄卡(String),(String),33123(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         }
         {
@@ -824,7 +824,7 @@ public class QueryTest19 extends PgSQLBaseTest {
         Assert.assertEquals(2, listenerContext.getJdbcExecuteAfterArgs().size());
         {
             JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArgs().get(0);
-            Assert.assertEquals("SELECT t.\"id\",t.\"name\",t.\"phone\",t.\"age\" FROM \"doc_user\" t WHERE NOT ( EXISTS (SELECT 1 FROM \"doc_bank_card\" t1 WHERE t1.\"uid\" = t.\"id\" AND t1.\"type\" = ? AND (NOT (t1.\"code\" LIKE CONCAT((?)::TEXT,'%') AND t1.\"code\" LIKE CONCAT((?)::TEXT,'%'))) LIMIT 1))", jdbcExecuteAfterArg.getBeforeArg().getSql());
+            Assert.assertEquals("SELECT t.\"id\",t.\"name\",t.\"phone\",t.\"age\" FROM \"doc_user\" t WHERE NOT (EXISTS(SELECT 1 FROM \"doc_bank_card\" t1 WHERE t1.\"uid\" = t.\"id\" AND t1.\"type\" = ? AND (NOT (t1.\"code\" LIKE CONCAT((?)::TEXT,'%') AND t1.\"code\" LIKE CONCAT((?)::TEXT,'%'))) LIMIT 1))", jdbcExecuteAfterArg.getBeforeArg().getSql());
             Assert.assertEquals("储蓄卡(String),33123(String),45678(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         }
         {

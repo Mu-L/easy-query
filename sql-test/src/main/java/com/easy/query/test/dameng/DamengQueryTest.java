@@ -590,7 +590,7 @@ public class DamengQueryTest extends DamengBaseTest {
         Assert.assertEquals(2, listenerContext.getJdbcExecuteAfterArgs().size());
         {
             JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArgs().get(0);
-            Assert.assertEquals("SELECT t.\"ID\",t.\"NAME\",t.\"PHONE\",t.\"AGE\",t.\"CREATE_TIME\" FROM \"t_sys_user\" t WHERE NOT ( EXISTS (SELECT 1 FROM \"t_bank_card\" t1 WHERE t1.\"UID\" = t.\"ID\" AND t1.\"TYPE\" = ? AND (NOT (t1.\"CODE\" LIKE (TO_CHAR(?)||'%'))) AND ROWNUM < 2))", jdbcExecuteAfterArg.getBeforeArg().getSql());
+            Assert.assertEquals("SELECT t.\"ID\",t.\"NAME\",t.\"PHONE\",t.\"AGE\",t.\"CREATE_TIME\" FROM \"t_sys_user\" t WHERE NOT (EXISTS(SELECT 1 FROM \"t_bank_card\" t1 WHERE t1.\"UID\" = t.\"ID\" AND t1.\"TYPE\" = ? AND (NOT (t1.\"CODE\" LIKE (TO_CHAR(?)||'%'))) AND ROWNUM < 2))", jdbcExecuteAfterArg.getBeforeArg().getSql());
             Assert.assertEquals("储蓄卡(String),33123(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         }
         {
@@ -622,7 +622,7 @@ public class DamengQueryTest extends DamengBaseTest {
         Assert.assertEquals(2, listenerContext.getJdbcExecuteAfterArgs().size());
         {
             JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArgs().get(0);
-            Assert.assertEquals("SELECT t.\"ID\",t.\"NAME\",t.\"PHONE\",t.\"AGE\",t.\"CREATE_TIME\" FROM \"t_sys_user\" t WHERE NOT ( EXISTS (SELECT 1 FROM \"t_bank_card\" t1 WHERE t1.\"UID\" = t.\"ID\" AND t1.\"TYPE\" = ? AND (NOT (NVL(t1.\"CODE\",?) LIKE (TO_CHAR(?)||'%'))) AND ROWNUM < 2))", jdbcExecuteAfterArg.getBeforeArg().getSql());
+            Assert.assertEquals("SELECT t.\"ID\",t.\"NAME\",t.\"PHONE\",t.\"AGE\",t.\"CREATE_TIME\" FROM \"t_sys_user\" t WHERE NOT (EXISTS(SELECT 1 FROM \"t_bank_card\" t1 WHERE t1.\"UID\" = t.\"ID\" AND t1.\"TYPE\" = ? AND (NOT (NVL(t1.\"CODE\",?) LIKE (TO_CHAR(?)||'%'))) AND ROWNUM < 2))", jdbcExecuteAfterArg.getBeforeArg().getSql());
             Assert.assertEquals("储蓄卡(String),(String),33123(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         }
         {
@@ -658,7 +658,7 @@ public class DamengQueryTest extends DamengBaseTest {
         Assert.assertEquals(2, listenerContext.getJdbcExecuteAfterArgs().size());
         {
             JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArgs().get(0);
-            Assert.assertEquals("SELECT t.\"ID\",t.\"NAME\",t.\"PHONE\",t.\"AGE\",t.\"CREATE_TIME\" FROM \"t_sys_user\" t WHERE NOT ( EXISTS (SELECT 1 FROM \"t_bank_card\" t1 WHERE t1.\"UID\" = t.\"ID\" AND t1.\"TYPE\" = ? AND (NOT (t1.\"CODE\" LIKE (TO_CHAR(?)||'%') AND t1.\"CODE\" LIKE (TO_CHAR(?)||'%'))) AND ROWNUM < 2))", jdbcExecuteAfterArg.getBeforeArg().getSql());
+            Assert.assertEquals("SELECT t.\"ID\",t.\"NAME\",t.\"PHONE\",t.\"AGE\",t.\"CREATE_TIME\" FROM \"t_sys_user\" t WHERE NOT (EXISTS(SELECT 1 FROM \"t_bank_card\" t1 WHERE t1.\"UID\" = t.\"ID\" AND t1.\"TYPE\" = ? AND (NOT (t1.\"CODE\" LIKE (TO_CHAR(?)||'%') AND t1.\"CODE\" LIKE (TO_CHAR(?)||'%'))) AND ROWNUM < 2))", jdbcExecuteAfterArg.getBeforeArg().getSql());
             Assert.assertEquals("储蓄卡(String),33123(String),45678(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         }
         {
@@ -897,8 +897,8 @@ public class DamengQueryTest extends DamengBaseTest {
         Assert.assertEquals(1, listenerContext.getJdbcExecuteAfterArgs().size());
         {
             JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArgs().get(0);
-            Assert.assertEquals("SELECT CASE WHEN EXISTS((SELECT 1 FROM \"t_bank_card\" t2 WHERE t2.\"UID\" = t.\"ID\" AND ROWNUM < 2)) THEN TRUE ELSE FALSE END AS \"VALUE1\",CASE WHEN NOT EXISTS((SELECT 1 FROM \"t_bank_card\" t3 WHERE t3.\"UID\" = t.\"ID\" AND ROWNUM < 2)) THEN TRUE ELSE FALSE END AS \"VALUE2\" FROM \"t_sys_user\" t WHERE EXISTS (SELECT 1 FROM \"t_bank_card\" t1 WHERE t1.\"UID\" = t.\"ID\" AND ROWNUM < 2)", jdbcExecuteAfterArg.getBeforeArg().getSql());
-//            Assert.assertEquals("1(Integer),true(Boolean),false(Boolean),储蓄卡(String),33123(String),true(Boolean),true(Boolean)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
+            Assert.assertEquals("SELECT (CASE WHEN (EXISTS(SELECT 1 FROM \"t_bank_card\" t2 WHERE t2.\"UID\" = t.\"ID\" AND ROWNUM < 2)) THEN ? ELSE ? END) AS \"VALUE1\",(CASE WHEN (NOT (EXISTS(SELECT 1 FROM \"t_bank_card\" t3 WHERE t3.\"UID\" = t.\"ID\" AND ROWNUM < 2))) THEN ? ELSE ? END) AS \"VALUE2\" FROM \"t_sys_user\" t WHERE EXISTS(SELECT 1 FROM \"t_bank_card\" t1 WHERE t1.\"UID\" = t.\"ID\" AND ROWNUM < 2)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+            Assert.assertEquals("true(Boolean),false(Boolean),true(Boolean),false(Boolean)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         }
         listenerContextManager.clear();
     }
@@ -923,8 +923,8 @@ public class DamengQueryTest extends DamengBaseTest {
         Assert.assertEquals(1, listenerContext.getJdbcExecuteAfterArgs().size());
         {
             JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArgs().get(0);
-            Assert.assertEquals("SELECT (CASE WHEN (EXISTS (SELECT 1 FROM \"t_bank_card\" t2 WHERE t2.\"UID\" = t.\"ID\" AND ROWNUM < 2)) THEN ? ELSE ? END) AS \"VALUE1\",CASE WHEN NOT EXISTS((SELECT 1 FROM \"t_bank_card\" t3 WHERE t3.\"UID\" = t.\"ID\" AND ROWNUM < 2)) THEN TRUE ELSE FALSE END AS \"VALUE2\" FROM \"t_sys_user\" t WHERE EXISTS (SELECT 1 FROM \"t_bank_card\" t1 WHERE t1.\"UID\" = t.\"ID\" AND ROWNUM < 2)", jdbcExecuteAfterArg.getBeforeArg().getSql());
-            Assert.assertEquals("true(Boolean),false(Boolean)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
+            Assert.assertEquals("SELECT (CASE WHEN (EXISTS(SELECT 1 FROM \"t_bank_card\" t2 WHERE t2.\"UID\" = t.\"ID\" AND ROWNUM < 2)) THEN ? ELSE ? END) AS \"VALUE1\",(CASE WHEN (NOT (EXISTS(SELECT 1 FROM \"t_bank_card\" t3 WHERE t3.\"UID\" = t.\"ID\" AND ROWNUM < 2))) THEN ? ELSE ? END) AS \"VALUE2\" FROM \"t_sys_user\" t WHERE EXISTS(SELECT 1 FROM \"t_bank_card\" t1 WHERE t1.\"UID\" = t.\"ID\" AND ROWNUM < 2)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+            Assert.assertEquals("true(Boolean),false(Boolean),true(Boolean),false(Boolean)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         }
         listenerContextManager.clear();
     }

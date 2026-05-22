@@ -385,7 +385,7 @@ public class QueryTest23 extends BaseTest {
         listenerContextManager.clear();
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-        Assert.assertEquals("SELECT t.`id`,t.`create_time`,t.`update_time`,t.`create_by`,t.`update_by`,t.`deleted`,t.`title`,t.`content`,t.`url`,t.`star`,t.`publish_time`,t.`score`,t.`status`,t.`order`,t.`is_top`,t.`top` FROM `t_blog` t WHERE t.`deleted` = ? AND t.`id` = ? AND EXISTS (SELECT 1 FROM `t_topic` t1 WHERE  t.`id` = IFNULL(t1.`id`,?) GROUP BY t1.`id` HAVING COUNT(t.`id`) > ? ORDER BY t.`id` ASC)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("SELECT t.`id`,t.`create_time`,t.`update_time`,t.`create_by`,t.`update_by`,t.`deleted`,t.`title`,t.`content`,t.`url`,t.`star`,t.`publish_time`,t.`score`,t.`status`,t.`order`,t.`is_top`,t.`top` FROM `t_blog` t WHERE t.`deleted` = ? AND t.`id` = ? AND EXISTS(SELECT 1 FROM `t_topic` t1 WHERE  t.`id` = IFNULL(t1.`id`,?) GROUP BY t1.`id` HAVING COUNT(t.`id`) > ? ORDER BY t.`id` ASC)", jdbcExecuteAfterArg.getBeforeArg().getSql());
         Assert.assertEquals("false(Boolean),123(String),1(String),1(Long)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
 
 //        easyEntityQuery.queryable(DocBankCard.class)
@@ -422,7 +422,7 @@ public class QueryTest23 extends BaseTest {
         listenerContextManager.clear();
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-        Assert.assertEquals("SELECT (SELECT MAX(t2.`type`) FROM `doc_bank_card` t2 WHERE t2.`uid` = t.`id` AND t.`name` = t2.`code` AND t.`phone` = ? AND t2.`code` = ?) AS `value1` FROM `doc_user` t WHERE t.`phone` = ? AND EXISTS (SELECT 1 FROM `doc_user_book` t1 WHERE t1.`uid` = t.`id` AND t.`name` = t1.`name` AND t.`phone` = ? LIMIT 1) AND t.`phone` = ?", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("SELECT (SELECT MAX(t2.`type`) FROM `doc_bank_card` t2 WHERE t2.`uid` = t.`id` AND t.`name` = t2.`code` AND t.`phone` = ? AND t2.`code` = ?) AS `value1` FROM `doc_user` t WHERE t.`phone` = ? AND EXISTS(SELECT 1 FROM `doc_user_book` t1 WHERE t1.`uid` = t.`id` AND t.`name` = t1.`name` AND t.`phone` = ? LIMIT 1) AND t.`phone` = ?", jdbcExecuteAfterArg.getBeforeArg().getSql());
         Assert.assertEquals("123(String),123(String),123(String),123(String),123(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
 
     }
@@ -770,7 +770,7 @@ public class QueryTest23 extends BaseTest {
         listenerContextManager.clear();
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-        Assert.assertEquals("SELECT t.`name` AS `value1`,(SELECT COUNT(*) FROM `t_user_book` t2 WHERE t2.`uid` = t.`uid`) AS `value2` FROM `t_user_account` t WHERE EXISTS (SELECT 1 FROM `t_user_book` t1 WHERE t1.`uid` = t.`uid` AND t1.`name` = ? LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("SELECT t.`name` AS `value1`,(SELECT COUNT(*) FROM `t_user_book` t2 WHERE t2.`uid` = t.`uid`) AS `value2` FROM `t_user_account` t WHERE EXISTS(SELECT 1 FROM `t_user_book` t1 WHERE t1.`uid` = t.`uid` AND t1.`name` = ? LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
         Assert.assertEquals("JAVA开发(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
 
     }

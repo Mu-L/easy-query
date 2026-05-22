@@ -89,7 +89,7 @@ public class MySQL8Test2 extends BaseTest {
         listenerContextManager.clear();
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-        Assert.assertEquals("SELECT t2.`id`,t2.`name`,t2.`create_time`,t2.`__part__column1` AS `__part__column1` FROM (SELECT t.`id`,t.`name`,t.`create_time`,(SELECT COUNT(*) FROM `t_bank_card` t1 WHERE t1.`bank_id` = t.`id`) AS `__part__column1` FROM `t_bank` t WHERE t.`name` LIKE ?) t2 LEFT JOIN `t_bank_card` t3 ON t2.`id` = t3.`bank_id` WHERE t2.`__part__column1` = t3.`type` AND EXISTS (SELECT 1 FROM `t_bank_card` t4 WHERE t4.`bank_id` = t2.`id` LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("SELECT t2.`id`,t2.`name`,t2.`create_time`,t2.`__part__column1` AS `__part__column1` FROM (SELECT t.`id`,t.`name`,t.`create_time`,(SELECT COUNT(*) FROM `t_bank_card` t1 WHERE t1.`bank_id` = t.`id`) AS `__part__column1` FROM `t_bank` t WHERE t.`name` LIKE ?) t2 LEFT JOIN `t_bank_card` t3 ON t2.`id` = t3.`bank_id` WHERE t2.`__part__column1` = t3.`type` AND EXISTS(SELECT 1 FROM `t_bank_card` t4 WHERE t4.`bank_id` = t2.`id` LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
         Assert.assertEquals("%银行%(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
 
     }
@@ -151,7 +151,7 @@ public class MySQL8Test2 extends BaseTest {
         listenerContextManager.clear();
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-        Assert.assertEquals("SELECT t.`id`,t.`uid`,t.`code`,t.`type`,t.`bank_id`,t.`open_time` FROM `t_bank_card` t LEFT JOIN (SELECT t1.`id`,t1.`name`,t1.`create_time`,(SELECT COUNT(*) FROM `t_bank_card` t2 WHERE t2.`bank_id` = t1.`id`) AS `__part__column1` FROM `t_bank` t1 WHERE t1.`name` LIKE ?) t4 ON t.`bank_id` = t4.`id` WHERE EXISTS (SELECT 1 FROM `t_bank_card` t5 WHERE t5.`bank_id` = t4.`id` LIMIT 1) AND t4.`__part__column1` = t.`type`", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("SELECT t.`id`,t.`uid`,t.`code`,t.`type`,t.`bank_id`,t.`open_time` FROM `t_bank_card` t LEFT JOIN (SELECT t1.`id`,t1.`name`,t1.`create_time`,(SELECT COUNT(*) FROM `t_bank_card` t2 WHERE t2.`bank_id` = t1.`id`) AS `__part__column1` FROM `t_bank` t1 WHERE t1.`name` LIKE ?) t4 ON t.`bank_id` = t4.`id` WHERE EXISTS(SELECT 1 FROM `t_bank_card` t5 WHERE t5.`bank_id` = t4.`id` LIMIT 1) AND t4.`__part__column1` = t.`type`", jdbcExecuteAfterArg.getBeforeArg().getSql());
         Assert.assertEquals("%银行%(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
 
     }
@@ -402,7 +402,7 @@ public class MySQL8Test2 extends BaseTest {
         listenerContextManager.clear();
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-        Assert.assertEquals("SELECT t.`id`,t.`name`,t.`create_time` FROM `t_bank` t WHERE EXISTS (SELECT 1 FROM `t_bank_card` t1 WHERE t1.`bank_id` = t.`id` AND t1.`type` = ? LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("SELECT t.`id`,t.`name`,t.`create_time` FROM `t_bank` t WHERE EXISTS(SELECT 1 FROM `t_bank_card` t1 WHERE t1.`bank_id` = t.`id` AND t1.`type` = ? LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
         Assert.assertEquals("(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
 
     }
@@ -424,7 +424,7 @@ public class MySQL8Test2 extends BaseTest {
         listenerContextManager.clear();
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-        Assert.assertEquals("SELECT t.`id`,t.`name`,t.`create_time` FROM `t_bank` t WHERE EXISTS (SELECT 1 FROM `t_bank_card` t1 WHERE t1.`bank_id` = t.`id` LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("SELECT t.`id`,t.`name`,t.`create_time` FROM `t_bank` t WHERE EXISTS(SELECT 1 FROM `t_bank_card` t1 WHERE t1.`bank_id` = t.`id` LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
 
     }
 
@@ -633,7 +633,7 @@ public class MySQL8Test2 extends BaseTest {
         listenerContextManager.clear();
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-        Assert.assertEquals("SELECT t.`id`,t.`name`,t.`create_time` FROM `t_bank` t WHERE EXISTS (SELECT 1 FROM `t_bank_card` t1 WHERE t1.`bank_id` = t.`id`)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("SELECT t.`id`,t.`name`,t.`create_time` FROM `t_bank` t WHERE EXISTS(SELECT 1 FROM `t_bank_card` t1 WHERE t1.`bank_id` = t.`id`)", jdbcExecuteAfterArg.getBeforeArg().getSql());
 //        Assert.assertEquals("1(Integer),1(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
     }
 
@@ -660,7 +660,7 @@ public class MySQL8Test2 extends BaseTest {
         listenerContextManager.clear();
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-        Assert.assertEquals("SELECT t.`id`,t.`name`,t.`create_time` FROM `t_bank` t WHERE EXISTS (SELECT 1 FROM `t_bank_card` t1 WHERE t1.`bank_id` = t.`id` AND t1.`type` = ?)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("SELECT t.`id`,t.`name`,t.`create_time` FROM `t_bank` t WHERE EXISTS(SELECT 1 FROM `t_bank_card` t1 WHERE t1.`bank_id` = t.`id` AND t1.`type` = ?)", jdbcExecuteAfterArg.getBeforeArg().getSql());
         Assert.assertEquals("(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
     }
 

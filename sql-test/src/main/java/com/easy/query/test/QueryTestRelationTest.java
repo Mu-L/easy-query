@@ -189,7 +189,7 @@ public class QueryTestRelationTest extends BaseTest {
 
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-        Assert.assertEquals("SELECT t.`id`,t.`com_id`,t.`user_id`,t.`gw` FROM `my_com_user` t WHERE EXISTS (SELECT 1 FROM `my_sign_up` t1 WHERE (t1.`com_id` = t.`com_id` AND t1.`user_id` = t.`user_id`) LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("SELECT t.`id`,t.`com_id`,t.`user_id`,t.`gw` FROM `my_com_user` t WHERE EXISTS(SELECT 1 FROM `my_sign_up` t1 WHERE (t1.`com_id` = t.`com_id` AND t1.`user_id` = t.`user_id`) LIMIT 1)", jdbcExecuteAfterArg.getBeforeArg().getSql());
         List<SQLParameter> sqlParameters = jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0);
         Assert.assertEquals(1, jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().size());
         Assert.assertEquals(0, sqlParameters.size());
@@ -303,7 +303,7 @@ public class QueryTestRelationTest extends BaseTest {
                 }).toList();
         Assert.assertNotNull(listenerContext.getJdbcExecuteAfterArg());
         JdbcExecuteAfterArg jdbcExecuteAfterArg = listenerContext.getJdbcExecuteAfterArg();
-        Assert.assertEquals("SELECT t.`id`,t.`com_id`,t.`user_id`,t.`time`,t.`content` FROM `my_sign_up` t LEFT JOIN `my_com_user` t1 ON (t1.`com_id` = t.`com_id` AND t1.`user_id` = t.`user_id`) WHERE EXISTS (SELECT 1 FROM `my_sign_up` t2 WHERE t2.`com_id` = t1.`com_id`) AND t.`com_id` = ?", jdbcExecuteAfterArg.getBeforeArg().getSql());
+        Assert.assertEquals("SELECT t.`id`,t.`com_id`,t.`user_id`,t.`time`,t.`content` FROM `my_sign_up` t LEFT JOIN `my_com_user` t1 ON (t1.`com_id` = t.`com_id` AND t1.`user_id` = t.`user_id`) WHERE EXISTS(SELECT 1 FROM `my_sign_up` t2 WHERE t2.`com_id` = t1.`com_id`) AND t.`com_id` = ?", jdbcExecuteAfterArg.getBeforeArg().getSql());
         Assert.assertEquals("123(String)", EasySQLUtil.sqlParameterToString(jdbcExecuteAfterArg.getBeforeArg().getSqlParameters().get(0)));
         listenerContextManager.clear();
     }
