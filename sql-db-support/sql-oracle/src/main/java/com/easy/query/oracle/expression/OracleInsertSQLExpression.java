@@ -12,6 +12,8 @@ import com.easy.query.core.expression.sql.builder.ExpressionContext;
 import com.easy.query.core.expression.sql.expression.EntityTableSQLExpression;
 import com.easy.query.core.expression.sql.expression.impl.EntitySQLExpressionMetadata;
 import com.easy.query.core.expression.sql.expression.impl.InsertSQLExpressionImpl;
+import com.easy.query.core.logging.Log;
+import com.easy.query.core.logging.LogFactory;
 import com.easy.query.core.metadata.EntityMetadata;
 import com.easy.query.core.util.EasyClassUtil;
 import com.easy.query.core.util.EasyCollectionUtil;
@@ -31,6 +33,7 @@ import java.util.stream.Collectors;
  * @author xuejiaming
  */
 public class OracleInsertSQLExpression extends InsertSQLExpressionImpl {
+
     public OracleInsertSQLExpression(EntitySQLExpressionMetadata entitySQLExpressionMetadata, EntityTableSQLExpression table) {
         super(entitySQLExpressionMetadata, table);
     }
@@ -142,9 +145,9 @@ public class OracleInsertSQLExpression extends InsertSQLExpressionImpl {
 
     protected Collection<String> getConstraintPropertyName(EntityMetadata entityMetadata, Collection<String> keyProperties) {
         if (EasyCollectionUtil.isEmpty(duplicateKeys)) {
-            return getConstraintPropertyName0(entityMetadata,keyProperties);
+            return getConstraintPropertyName0(entityMetadata, keyProperties);
         }
-        return getConstraintPropertyName0(entityMetadata,duplicateKeys);
+        return getConstraintPropertyName0(entityMetadata, duplicateKeys);
     }
 
     private Collection<String> getConstraintPropertyName0(EntityMetadata entityMetadata, Collection<String> columns) {

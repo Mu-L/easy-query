@@ -12,11 +12,14 @@ import com.easy.query.core.expression.sql.builder.ExpressionContext;
 import com.easy.query.core.expression.sql.expression.EntityTableSQLExpression;
 import com.easy.query.core.expression.sql.expression.impl.EntitySQLExpressionMetadata;
 import com.easy.query.core.expression.sql.expression.impl.InsertSQLExpressionImpl;
+import com.easy.query.core.logging.Log;
+import com.easy.query.core.logging.LogFactory;
 import com.easy.query.core.metadata.EntityMetadata;
 import com.easy.query.core.util.EasyClassUtil;
 import com.easy.query.core.util.EasyCollectionUtil;
 import com.easy.query.core.util.EasySQLExpressionUtil;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -53,16 +56,29 @@ public class DuckDBSQLInsertSQLExpression extends InsertSQLExpressionImpl {
 
         sql.append(") VALUES (").append(columns.toSQL(toSQLContext)).append(")");
 
+        QueryRuntimeContext runtimeContext = getRuntimeContext();
+        EntityMetadata entityMetadata = easyTableSQLExpression.getEntityMetadata();
+        TableAvailable entityTable = easyTableSQLExpression.getEntityTable();
+        Collection<String> keyProperties = entityMetadata.getKeyProperties();
         ExpressionContext expressionContext = entitySQLExpressionMetadata.getExpressionContext();
         if(expressionContext.getBehavior().hasBehavior(EasyBehaviorEnum.ON_DUPLICATE_KEY_IGNORE)){
-            sql.append(" ON CONFLICT DO NOTHING");
+            Collection<String> constraintPropertyNames = getConstraintPropertyName(entityMetadata,keyProperties,EasyBehaviorEnum.ON_DUPLICATE_KEY_IGNORE);
+            if(EasyCollectionUtil.isNotEmpty(constraintPropertyNames)){
+                sql.append(" ON CONFLICT (");
+                Iterator<String> constraintPropertyIterator = constraintPropertyNames.iterator();
+                String firstConstraintProperty = constraintPropertyIterator.next();
+                sql.append(getQuoteName(entityTable,runtimeContext,firstConstraintProperty));
+                while (constraintPropertyIterator.hasNext()){
+                    String nextConstraintProperty = constraintPropertyIterator.next();
+                    sql.append(",").append(getQuoteName(entityTable,runtimeContext,nextConstraintProperty));
+                }
+                sql.append(") DO NOTHING");
+            }else{
+                sql.append(" ON CONFLICT DO NOTHING");
+            }
         } else if (expressionContext.getBehavior().hasBehavior(EasyBehaviorEnum.ON_DUPLICATE_KEY_UPDATE)) {
-            QueryRuntimeContext runtimeContext = getRuntimeContext();
-            EntityMetadata entityMetadata = easyTableSQLExpression.getEntityMetadata();
-            TableAvailable entityTable = easyTableSQLExpression.getEntityTable();
-            Collection<String> keyProperties = entityMetadata.getKeyProperties();
 
-            Collection<String> constraintPropertyNames = getConstraintPropertyName(entityMetadata,keyProperties);
+            Collection<String> constraintPropertyNames = getConstraintPropertyName(entityMetadata,keyProperties,EasyBehaviorEnum.ON_DUPLICATE_KEY_UPDATE);
 
             StringBuilder duplicateKeyUpdateSql = new StringBuilder();
             SQLBuilderSegment realDuplicateKeyUpdateColumns = getRealDuplicateKeyUpdateColumns();
@@ -105,8 +121,11 @@ public class DuckDBSQLInsertSQLExpression extends InsertSQLExpressionImpl {
         return  EasySQLExpressionUtil.getQuoteName(runtimeContext, keyColumnName);
     }
 
-    protected Collection<String> getConstraintPropertyName(EntityMetadata entityMetadata, Collection<String> keyProperties) {
+    protected Collection<String> getConstraintPropertyName(EntityMetadata entityMetadata, Collection<String> keyProperties,EasyBehaviorEnum behavior) {
         if (EasyCollectionUtil.isEmpty(duplicateKeys)) {
+            if (behavior == EasyBehaviorEnum.ON_DUPLICATE_KEY_IGNORE) {
+                return new ArrayList<>();
+            }
             return getConstraintPropertyName0(entityMetadata,keyProperties);
         }
         return getConstraintPropertyName0(entityMetadata,duplicateKeys);

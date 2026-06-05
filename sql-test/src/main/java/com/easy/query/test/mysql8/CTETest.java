@@ -72,6 +72,7 @@ public class CTETest extends BaseTest {
                 .where((m1, m2) -> {
                     m1.name().like("123");
                     m2.name().like("456");
+
                 }).select((m1, m2) -> Select.DRAFT.of(
                         m1.name(),
                         m2.name()

@@ -46,20 +46,25 @@ public interface SQLQueryable<T1Proxy extends ProxyEntity<T1Proxy, T1>, T1> exte
     SQLQueryable<T1Proxy, T1> where(SQLActionExpression1<T1Proxy> whereExpression);
 
     /**
-     * 存在任意一个满足条件
+     * 存在至少一个满足条件
      *
      * @param whereExpression
      */
     void any(SQLActionExpression1<T1Proxy> whereExpression);
 
     /**
-     * 之前的集合都满足条件
+     * 存在至少一个满足条件
+     */
+    void any();
+
+    /**
+     * all前面的集合都满足{@param allExpression}条件
      * @param allExpression
      */
     void all(SQLActionExpression1<T1Proxy> allExpression);
 
     /**
-     * 至少集合非空且全部满足where条件
+     * all前面集合非空且全部满足{@param allExpression}条件
      * @param whereExpression
      */
     default void notEmptyAll(SQLActionExpression1<T1Proxy> whereExpression){
@@ -70,19 +75,14 @@ public interface SQLQueryable<T1Proxy extends ProxyEntity<T1Proxy, T1>, T1> exte
     }
 
     /**
-     * 存在任意一个满足条件
-     */
-    void any();
-
-    /**
-     * 不存在任意一个满足条件
+     * 符合条件的一个都没有
      *
      * @param whereExpression
      */
     void none(SQLActionExpression1<T1Proxy> whereExpression);
 
     /**
-     * 不存在任意一个满足条件
+     * 符合条件的一个都没有
      */
     void none();
 
@@ -126,6 +126,7 @@ public interface SQLQueryable<T1Proxy extends ProxyEntity<T1Proxy, T1>, T1> exte
     /**
      * 暂开集合元素
      * 用户返回集合元素
+     * 在where内表示any函数,其他dsl中无法表示任何函数且会报错
      *
      * @return
      */
@@ -133,6 +134,13 @@ public interface SQLQueryable<T1Proxy extends ProxyEntity<T1Proxy, T1>, T1> exte
         return flatElement(null);
     }
 
+    /**
+     * 暂开集合元素
+     * 用户返回集合元素
+     * 在where内表示any函数,其他dsl中无法表示任何函数且会报错
+     * @param flatAdapterExpression
+     * @return
+     */
     T1Proxy flatElement(SQLFuncExpression1<T1Proxy, SQLSelectAsExpression> flatAdapterExpression);
 
 

@@ -1,6 +1,7 @@
 package com.easy.query.test.pgsql;
 
 import com.easy.query.api.proxy.entity.insert.EntityInsertable;
+import com.easy.query.core.exception.EasyQueryInvalidOperationException;
 import com.easy.query.core.exception.EasyQuerySQLCommandException;
 import com.easy.query.core.exception.EasyQuerySQLStatementException;
 import com.easy.query.test.entity.BlogEntity;
@@ -104,6 +105,20 @@ public class InsertTest extends PgSQLBaseTest {
                 .onConflictThen(s -> s.FETCHER.stars().createTime(), s -> s.title());
         String sql = insertable.toSQL(topicAuto);
         Assert.assertEquals("INSERT INTO \"t_topic_auto\" (\"stars\",\"title\",\"create_time\") VALUES (?,?,?) ON CONFLICT (\"title\") DO UPDATE SET \"stars\" = EXCLUDED.\"stars\", \"create_time\" = EXCLUDED.\"create_time\"", sql);
+    }
+
+    @Test
+    public void insertDuplicateKeyUpdate2_1() {
+
+        TopicAuto topicAuto = new TopicAuto();
+        topicAuto.setStars(999);
+        topicAuto.setTitle("title" + 999);
+        topicAuto.setCreateTime(LocalDateTime.now().plusDays(99));
+        Assert.assertNull(topicAuto.getId());
+        EntityInsertable<TopicAutoProxy, TopicAuto> insertable = entityQuery.insertable(topicAuto)
+                .onConflictThen(null, s -> s.title());
+        String sql = insertable.toSQL(topicAuto);
+        Assert.assertEquals("INSERT INTO \"t_topic_auto\" (\"stars\",\"title\",\"create_time\") VALUES (?,?,?) ON CONFLICT (\"title\") DO NOTHING", sql);
     }
 
     @Test
