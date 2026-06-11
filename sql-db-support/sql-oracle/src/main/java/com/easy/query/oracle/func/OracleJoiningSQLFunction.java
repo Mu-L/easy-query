@@ -32,11 +32,12 @@ public class OracleJoiningSQLFunction extends AbstractExpressionSQLFunction {
         if (columnExpressions.size() < 2) {
             throw new IllegalArgumentException("joining arguments < 2");
         }
+        // WITHIN GROUP(ORDER BY 1) 兼容各个版本的oracle如果不需要自行替换掉
         if (columnExpressions.size() == 2) {
             if (distinct) {
-                return "LISTAGG(DISTINCT TO_CHAR({1}), {0})";
+                return "LISTAGG(DISTINCT TO_CHAR({1}), {0}) WITHIN GROUP(ORDER BY 1)";
             }
-            return "LISTAGG(TO_CHAR({1}), {0})";
+            return "LISTAGG(TO_CHAR({1}), {0}) WITHIN GROUP(ORDER BY 1)";
         } else {
             if (distinct) {
                 return "LISTAGG(DISTINCT TO_CHAR({1}), {0}) WITHIN GROUP(ORDER BY {2})";
