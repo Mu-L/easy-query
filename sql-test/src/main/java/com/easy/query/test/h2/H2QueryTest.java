@@ -11,6 +11,7 @@ import com.easy.query.test.entity.SysUser;
 import com.easy.query.test.entity.Topic;
 import com.easy.query.test.h2.domain.ALLTYPE;
 import com.easy.query.test.h2.domain.ALLTYPE1;
+import com.easy.query.test.h2.domain.H2TableCommentEntity;
 import com.easy.query.test.h2.domain.ALLTYPESharding;
 import com.easy.query.test.h2.domain.DefTable;
 import com.easy.query.test.h2.domain.DefTableLeft1;
@@ -782,6 +783,30 @@ public class H2QueryTest extends H2BaseTest {
                     "id2 VARCHAR(255) NOT NULL , \n" +
                     " PRIMARY KEY (id1, id2)\n" +
                     ");",s.getSQL());
+            s.commit();
+        });
+    }
+
+    @Test
+    public void testTableCommentDDL() {
+        DatabaseCodeFirst databaseCodeFirst = easyEntityQuery.getDatabaseCodeFirst();
+        CodeFirstCommand dropCommand = databaseCodeFirst.dropTableIfExistsCommand(Arrays.asList(H2TableCommentEntity.class));
+        dropCommand.executeWithTransaction(s -> s.commit());
+        CodeFirstCommand syncCommand = databaseCodeFirst.syncTableCommand(Arrays.asList(H2TableCommentEntity.class));
+        // 执行建表语句验证 H2 能够正确解析；修复前 MySQL 风格的内联 COMMENT='...' 放在括号内会导致语法错误
+        syncCommand.executeWithTransaction(s -> {
+            // 统一换行符，兼容不同平台的 System.lineSeparator()
+            String ddl = s.getSQL().replace("\r\n", "\n");
+            // 列级注释保持内联 COMMENT，表级注释生成为独立的 COMMENT ON TABLE 语句
+            Assert.assertEquals("\n" +
+                    "CREATE TABLE IF NOT EXISTS t_h2_table_comment ( \n" +
+                    "id VARCHAR(255) NOT NULL  COMMENT '主键ID',\n" +
+                    "name VARCHAR(255) NULL  COMMENT '名称', \n" +
+                    " PRIMARY KEY (id)\n" +
+                    ");\n" +
+                    "COMMENT ON TABLE t_h2_table_comment IS 'H2表注释测试';", ddl);
+            // 不得出现 MySQL 内联表级注释语法
+            Assert.assertFalse(ddl.contains("COMMENT="));
             s.commit();
         });
     }
