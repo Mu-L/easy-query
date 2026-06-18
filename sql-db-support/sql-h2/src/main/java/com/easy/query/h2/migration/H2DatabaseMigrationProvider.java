@@ -118,11 +118,15 @@ public class H2DatabaseMigrationProvider extends AbstractDatabaseMigrationProvid
         }else{
             sql.deleteCharAt(sql.length() - 1);
         }
+        sql.append(newLine).append(");");
+        // H2 不支持 MySQL 内联的表级 COMMENT='...' 语法，需使用独立的 COMMENT ON TABLE 语句
         String tableComment = getTableComment(tableMigrationData, "'");
         if (EasyStringUtil.isNotBlank(tableComment)) {
-            sql.append(" COMMENT=").append(tableComment);
+            sql.append(newLine)
+                    .append("COMMENT ON TABLE ")
+                    .append(getQuoteSQLName(tableMigrationData.getSchema(), tableMigrationData.getTableName()))
+                    .append(" IS ").append(tableComment).append(";");
         }
-        sql.append(newLine).append(");");
         return new DefaultMigrationCommand(sql.toString());
     }
 
