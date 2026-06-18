@@ -1,5 +1,6 @@
 package com.easy.query.core.metadata;
 
+import com.easy.query.core.annotation.IncludeOnProperty;
 import com.easy.query.core.basic.extension.navigate.MemoryFilterConfiguration;
 import com.easy.query.core.common.DirectMappingIterator;
 import com.easy.query.core.context.QueryRuntimeContext;

@@ -91,7 +91,6 @@ public @interface Navigate {
      */
     OrderByProperty[] orderByProps() default {};
 
-    NavigateCondition[] conditions() default {};
     /**
      * 偏移量
      *

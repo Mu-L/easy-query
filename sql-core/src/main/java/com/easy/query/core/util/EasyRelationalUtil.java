@@ -168,12 +168,10 @@ public class EasyRelationalUtil {
                 AndPredicateSegment andPredicateSegment = new AndPredicateSegment();
 
                 SQLExpressionInvokeFactory easyQueryLambdaFactory = runtimeContext.getSQLExpressionInvokeFactory();
-                WherePredicate<Object> sqlPredicate = easyQueryLambdaFactory.createWherePredicate(rightTable, entityExpressionBuilder, andPredicateSegment);
-                sqlPredicate.and(() -> {
-                    sqlPredicate.multiEq(true, new SimpleEntitySQLTableOwner<>(leftTable), navigateMetadata.getTargetPropertiesOrPrimary(runtimeContext), navigateMetadata.getSelfPropertiesOrPrimary());
-                    if (navigateMetadata.hasPredicateFilterExpression()) {
-                        navigateMetadata.predicateFilterApply(sqlPredicate);
-                    }
+                WherePredicate<Object> sqlRightPredicate = easyQueryLambdaFactory.createWherePredicate(rightTable, entityExpressionBuilder, andPredicateSegment);
+                sqlRightPredicate.and(() -> {
+                    sqlRightPredicate.multiEq(true, new SimpleEntitySQLTableOwner<>(leftTable), navigateMetadata.getTargetPropertiesOrPrimary(runtimeContext), navigateMetadata.getSelfPropertiesOrPrimary());
+                    navigateMetadata.predicateFilterApply(sqlRightPredicate);
                 });
                 tableExpressionBuilder.getOn().addPredicateSegment(andPredicateSegment);
                 return tableExpressionBuilder;

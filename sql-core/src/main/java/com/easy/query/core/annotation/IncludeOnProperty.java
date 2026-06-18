@@ -1,6 +1,7 @@
 package com.easy.query.core.annotation;
 
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -11,11 +12,11 @@ import java.lang.annotation.Target;
  *
  * @author xuejiaming
  */
-@Target(ElementType.TYPE)
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NavigateCondition {
-    String property();
-    String havingValue();
-
-    boolean matchIfMissing() default false;
+@Repeatable(IncludeOnProperties.class)
+public @interface IncludeOnProperty {
+    String name();
+    String value();
+    boolean matchNull() default false;
 }

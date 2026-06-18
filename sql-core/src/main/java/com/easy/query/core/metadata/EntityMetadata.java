@@ -6,7 +6,7 @@ import com.easy.query.core.annotation.ColumnSQLExpression;
 import com.easy.query.core.annotation.EasyAssertMessage;
 import com.easy.query.core.annotation.EasyTree;
 import com.easy.query.core.annotation.Encryption;
-import com.easy.query.core.annotation.NavigateCondition;
+import com.easy.query.core.annotation.IncludeOnProperty;
 import com.easy.query.core.annotation.InsertIgnore;
 import com.easy.query.core.annotation.LogicDelete;
 import com.easy.query.core.annotation.Navigate;
@@ -440,10 +440,11 @@ public class EntityMetadata {
                     navigateOption.setPredicateFilterExpression(predicateFilterExpression);
                 }
             }
-            NavigateCondition[] navigateConditions = navigate.conditions();
-            if (EasyArrayUtil.isNotEmpty(navigateConditions)) {
 
-                navigateOption.setMemoryFilterConfiguration(new MemoryFilterConfiguration(navigateConditions));
+            IncludeOnProperty[] includeOnProperties = field.getAnnotationsByType(IncludeOnProperty.class);
+            if (EasyArrayUtil.isNotEmpty(includeOnProperties)) {
+
+                navigateOption.setMemoryFilterConfiguration(new MemoryFilterConfiguration(includeOnProperties));
             }
 
             EntityRelationPropertyProvider entityRelationPropertyProvider = getEntityRelationPropertyProvider(configuration, navigate);
