@@ -1,9 +1,9 @@
 package com.easy.query.core.basic.api.internal;
 
-import com.easy.query.core.annotation.Nullable;
 import com.easy.query.core.expression.lambda.SQLActionExpression1;
 import com.easy.query.core.expression.parser.core.base.ColumnOnlySelector;
 
+import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.Collections;
 

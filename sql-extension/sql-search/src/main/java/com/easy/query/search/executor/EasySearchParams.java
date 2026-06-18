@@ -1,7 +1,7 @@
 package com.easy.query.search.executor;
 
-import com.easy.query.core.annotation.NotNull;
-import com.easy.query.core.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Supplier;

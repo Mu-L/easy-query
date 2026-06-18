@@ -1,6 +1,6 @@
 package com.easy.query.core.expression.sql.include;
 
-import com.easy.query.core.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import com.easy.query.core.basic.api.select.ClientQueryable;
 import com.easy.query.core.configuration.EasyQueryOption;
 import com.easy.query.core.exception.EasyQueryInvalidOperationException;

@@ -1,6 +1,5 @@
 package com.easy.query.core.basic.jdbc.executor.internal.enumerable;
 
-import com.easy.query.core.annotation.Nullable;
 import com.easy.query.core.basic.extension.conversion.ColumnReader;
 import com.easy.query.core.basic.jdbc.executor.ExecutorContext;
 import com.easy.query.core.basic.jdbc.executor.ResultColumnMetadata;
@@ -14,6 +13,7 @@ import com.easy.query.core.basic.jdbc.types.handler.JdbcTypeHandler;
 import com.easy.query.core.util.EasyClassUtil;
 import com.easy.query.core.util.EasyJdbcExecutorUtil;
 
+import org.jetbrains.annotations.Nullable;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Map;

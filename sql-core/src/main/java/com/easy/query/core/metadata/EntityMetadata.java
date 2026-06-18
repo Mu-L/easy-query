@@ -6,14 +6,16 @@ import com.easy.query.core.annotation.ColumnSQLExpression;
 import com.easy.query.core.annotation.EasyAssertMessage;
 import com.easy.query.core.annotation.EasyTree;
 import com.easy.query.core.annotation.Encryption;
+import com.easy.query.core.annotation.NavigateCondition;
 import com.easy.query.core.annotation.InsertIgnore;
 import com.easy.query.core.annotation.LogicDelete;
 import com.easy.query.core.annotation.Navigate;
 import com.easy.query.core.annotation.NavigateFlat;
 import com.easy.query.core.annotation.NavigateJoin;
 import com.easy.query.core.annotation.NavigateSetter;
-import com.easy.query.core.annotation.NotNull;
-import com.easy.query.core.annotation.Nullable;
+import com.easy.query.core.basic.extension.navigate.MemoryFilterConfiguration;
+import org.jetbrains.annotations.NotNull;;
+import org.jetbrains.annotations.Nullable;
 import com.easy.query.core.annotation.SaveKey;
 import com.easy.query.core.annotation.ShardingDataSourceKey;
 import com.easy.query.core.annotation.ShardingExtraDataSourceKey;
@@ -378,7 +380,9 @@ public class EntityMetadata {
         return null;
     }
 
-    private @Nullable EntityRelationPropertyProvider getEntityRelationPropertyProvider(QueryConfiguration configuration, Navigate navigate) {
+
+    @NotNull
+    private EntityRelationPropertyProvider getEntityRelationPropertyProvider(QueryConfiguration configuration, Navigate navigate) {
 
         EntityRelationPropertyProvider entityRelationPropertyProvider = configuration.getRelationPropertyProvider(navigate.relationPropertyStrategy());
         if (entityRelationPropertyProvider == null) {
@@ -436,6 +440,11 @@ public class EntityMetadata {
                     navigateOption.setPredicateFilterExpression(predicateFilterExpression);
                 }
             }
+            NavigateCondition[] navigateConditions = navigate.conditions();
+            if (EasyArrayUtil.isNotEmpty(navigateConditions)) {
+
+                navigateOption.setMemoryFilterConfiguration(new MemoryFilterConfiguration(navigateConditions));
+            }
 
             EntityRelationPropertyProvider entityRelationPropertyProvider = getEntityRelationPropertyProvider(configuration, navigate);
             navigateOption.setEntityRelationPropertyProvider(entityRelationPropertyProvider);
@@ -456,9 +465,7 @@ public class EntityMetadata {
                     navigateOption.setTargetMappingProperties(navigate.targetMappingProperty());
                     if (navigateExtraFilterStrategy != null) {
                         SQLActionExpression1<WherePredicate<?>> predicateFilterExpression = navigateExtraFilterStrategy.getPredicateMappingClassFilterExpression(new NavigateBuilder(navigateOption));
-                        if (predicateFilterExpression != null) {
-                            navigateOption.setPredicateMappingClassFilterExpression(predicateFilterExpression);
-                        }
+                        navigateOption.setPredicateMappingClassFilterExpression(predicateFilterExpression);
                     }
                 }
             }

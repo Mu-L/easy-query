@@ -1,5 +1,6 @@
 package com.easy.query.core.metadata;
 
+import com.easy.query.core.basic.extension.navigate.MemoryFilterConfiguration;
 import com.easy.query.core.common.DirectMappingIterator;
 import com.easy.query.core.context.QueryRuntimeContext;
 import com.easy.query.core.enums.PartitionOrderEnum;
@@ -61,6 +62,9 @@ public class NavigateMetadata {
     private final SQLActionExpression1<WherePredicate<?>> predicateFilterExpression;
     private final SQLActionExpression1<WherePredicate<?>> predicateMappingClassFilterExpression;
 
+
+    private final MemoryFilterConfiguration memoryFilterConfiguration;
+
     private final Map<String, NavigateMetadata> directMappingMetadataMap;
     private final EntityRelationPropertyProvider entityRelationPropertyProvider;
 
@@ -87,6 +91,7 @@ public class NavigateMetadata {
         this.targetMappingProperties = navigateOption.getTargetMappingProperties();
         this.predicateFilterExpression = navigateOption.getPredicateFilterExpression();
         this.predicateMappingClassFilterExpression = navigateOption.getPredicateMappingClassFilterExpression();
+        this.memoryFilterConfiguration = navigateOption.getMemoryFilterConfiguration();
         this.entityRelationPropertyProvider = navigateOption.getEntityRelationPropertyProvider();
         this.basicType = navigateOption.isBasicType();
         this.orderProps = navigateOption.getOrderProps();
@@ -142,6 +147,14 @@ public class NavigateMetadata {
         return new String[]{entityMetadata.getSingleKeyProperty()};
     }
 
+    public String[] getSelfPropertiesOrPrimaryAndMemoryFilterDependencies() {
+        String[] selfPropertiesOrPrimary = getSelfPropertiesOrPrimary();
+        if (memoryFilterConfiguration == null) {
+            return selfPropertiesOrPrimary;
+        }
+        return EasyArrayUtil.concat(selfPropertiesOrPrimary, memoryFilterConfiguration.getDependencies());
+    }
+
     public String[] getTargetProperties() {
         return targetProperties;
     }
@@ -176,13 +189,13 @@ public class NavigateMetadata {
 
 
     private NavigateMetadata getDirectFirstNavigateMetadata(QueryRuntimeContext runtimeContext) {
-        return EasyMapUtil.computeIfAbsent(directMappingMetadataMap,"DIRECT_FIRST_NAVIGATE", key -> {
+        return EasyMapUtil.computeIfAbsent(directMappingMetadataMap, "DIRECT_FIRST_NAVIGATE", key -> {
             return getDirectMappingFirstNavigateMetadata(new DirectMappingIterator(directMapping), runtimeContext, entityMetadata, null);
         });
     }
 
     private NavigateMetadata getDirectEndNavigateMetadata(QueryRuntimeContext runtimeContext) {
-        return EasyMapUtil.computeIfAbsent(directMappingMetadataMap,"DIRECT_END_NAVIGATE", key -> {
+        return EasyMapUtil.computeIfAbsent(directMappingMetadataMap, "DIRECT_END_NAVIGATE", key -> {
             return getDirectMappingEndNavigateMetadata(new DirectMappingIterator(directMapping), runtimeContext, entityMetadata, null);
         });
     }
@@ -289,6 +302,10 @@ public class NavigateMetadata {
         }
     }
 
+    public MemoryFilterConfiguration getMemoryFilterConfiguration() {
+        return memoryFilterConfiguration;
+    }
+
     public boolean isBasicType() {
         return basicType;
     }
@@ -315,6 +332,7 @@ public class NavigateMetadata {
 
     /**
      * 用来描述是否存在 存在则使用inner join
+     *
      * @return
      */
     public boolean isRequired() {
@@ -323,6 +341,7 @@ public class NavigateMetadata {
 
     /**
      * 默认不使用子查询而是将子查询转成group by
+     *
      * @return
      */
     public boolean isSubQueryToGroupJoin() {

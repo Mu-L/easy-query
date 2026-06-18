@@ -71,7 +71,7 @@ public interface Fillable<T1> {
      *          List<Province> provinces =  easyQuery.queryable(Province.class)
      *                 .fillMany(()->{
      *                     return easyQuery.queryable(City.class).where(c -> c.eq(City::getCode, "3306"));
-     *                 },"provinceCode", "code", (x, y) -> {
+     *                 },c->c.self_target("provinceCode", "code",false), (x, y) -> {
      *                     x.setCities(new ArrayList<>(y));
      *                 },false).toList();
      *      }

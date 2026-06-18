@@ -1,8 +1,8 @@
 package com.easy.query.core.basic.extension.navigate;
 
-import com.easy.query.core.annotation.Nullable;
 import com.easy.query.core.expression.lambda.SQLActionExpression1;
 import com.easy.query.core.expression.parser.core.base.WherePredicate;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * create time 2024/3/1 15:44

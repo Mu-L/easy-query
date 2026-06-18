@@ -1,8 +1,8 @@
 package com.easy.query.core.expression.parser.core;
 
-import com.easy.query.core.annotation.Nullable;
 import com.easy.query.core.expression.parser.core.available.TableAvailable;
 import com.easy.query.core.metadata.EntityMetadata;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * create time 2023/7/2 21:50

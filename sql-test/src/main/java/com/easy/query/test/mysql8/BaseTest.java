@@ -47,6 +47,11 @@ import com.easy.query.test.mysql8.entity.bank.SysBank;
 import com.easy.query.test.mysql8.entity.bank.SysBankCard;
 import com.easy.query.test.mysql8.entity.bank.SysUser;
 import com.easy.query.test.mysql8.entity.bank.SysUserBook;
+import com.easy.query.test.mysql8.entity.condition.MySubTask1;
+import com.easy.query.test.mysql8.entity.condition.MySubTask2;
+import com.easy.query.test.mysql8.entity.condition.MyTask;
+import com.easy.query.test.mysql8.entity.condition.MyTask1Ext;
+import com.easy.query.test.mysql8.entity.condition.MyTask2Ext;
 import com.easy.query.test.mysql8.entity.many.M8Area;
 import com.easy.query.test.mysql8.entity.many.M8AreaBuild;
 import com.easy.query.test.mysql8.entity.many.M8AreaBuildLicense;
@@ -180,12 +185,14 @@ public class BaseTest {
 //        codeFirstCommand.executeWithTransaction(s -> s.commit());
         CodeFirstCommand codeFirstCommand2 = databaseCodeFirst.dropTableIfExistsCommand(Arrays.asList(TableNoKey.class,SysUser.class, SysBankCard.class, SysBank.class, SysUserBook.class, M8Comment.class, M8Parent.class, M8Child.class, M8ParentChild.class,
                 M8Province.class, M8City.class, M8Area.class, M8AreaBuild.class, TreeA.class, TreeB.class, BatchInsert.class, Comment.class, M8SaveRoot.class, M8SaveRoot2Many.class, M8SaveRootMany.class, M8SaveRootMiddleMany.class, M8SaveRootOne.class,M8SaveRootOne2.class, M8SaveRootManyOne.class,
-                M8SaveA.class, M8SaveB.class, M8SaveC.class, M8SaveD.class, M8User3.class, M8UserRole3.class, M8Role3.class, M8ToMany1.class, M8ToMany2.class, M8ToMany3.class, M8AutoA.class, M8AutoB.class, OffsetChunkTest.class, MyConfigLogicDelete.class, M8UserTest.class));
+                M8SaveA.class, M8SaveB.class, M8SaveC.class, M8SaveD.class, M8User3.class, M8UserRole3.class, M8Role3.class, M8ToMany1.class, M8ToMany2.class, M8ToMany3.class, M8AutoA.class, M8AutoB.class, OffsetChunkTest.class, MyConfigLogicDelete.class, M8UserTest.class,
+                MyTask.class, MySubTask1.class, MySubTask2.class, MyTask1Ext.class, MyTask2Ext.class));
         codeFirstCommand2.executeWithTransaction(s -> s.commit());
 
         CodeFirstCommand codeFirstCommand1 = databaseCodeFirst.syncTableCommand(Arrays.asList(TableNoKey.class,SysUser.class, SysBank.class, SysBankCard.class, SysUserBook.class, M8Comment.class, M8Parent.class, M8Child.class, M8ParentChild.class,
                 M8Province.class, M8City.class, M8Area.class, M8AreaBuild.class,M8AreaBuildLicense.class, TreeA.class, TreeB.class, BatchInsert.class,Comment.class, M8SaveRoot.class, M8SaveRoot2Many.class, M8SaveRootMany.class, M8SaveRootMiddleMany.class, M8SaveRootOne.class,M8SaveRootOne2.class,M8SaveRootManyOne.class,
-                M8SaveA.class, M8SaveB.class, M8SaveC.class, M8SaveD.class, M8User3.class, M8UserRole3.class, M8Role3.class, M8ToMany1.class, M8ToMany2.class, M8ToMany3.class,M8AutoA.class,M8AutoB.class,OffsetChunkTest.class, SysDept.class, MyConfigLogicDelete.class,M8UserTest.class));
+                M8SaveA.class, M8SaveB.class, M8SaveC.class, M8SaveD.class, M8User3.class, M8UserRole3.class, M8Role3.class, M8ToMany1.class, M8ToMany2.class, M8ToMany3.class,M8AutoA.class,M8AutoB.class,OffsetChunkTest.class, SysDept.class, MyConfigLogicDelete.class,M8UserTest.class,
+                MyTask.class, MySubTask1.class, MySubTask2.class, MyTask1Ext.class, MyTask2Ext.class));
         codeFirstCommand1.executeWithTransaction(s -> {
             System.out.println(s.getSQL());
             s.commit();
@@ -215,6 +222,11 @@ public class BaseTest {
         easyEntityQuery.deletable(M8ToMany3.class).disableLogicDelete().allowDeleteStatement(true).where(o -> o.g().isNotNull()).executeRows();
         easyEntityQuery.deletable(M8AutoA.class).disableLogicDelete().allowDeleteStatement(true).where(o -> o.id().isNotNull()).executeRows();
         easyEntityQuery.deletable(M8AutoB.class).disableLogicDelete().allowDeleteStatement(true).where(o -> o.id().isNotNull()).executeRows();
+        easyEntityQuery.deletable(MyTask.class).disableLogicDelete().allowDeleteStatement(true).where(o -> o.id().isNotNull()).executeRows();
+        easyEntityQuery.deletable(MySubTask1.class).disableLogicDelete().allowDeleteStatement(true).where(o -> o.id().isNotNull()).executeRows();
+        easyEntityQuery.deletable(MySubTask2.class).disableLogicDelete().allowDeleteStatement(true).where(o -> o.id().isNotNull()).executeRows();
+        easyEntityQuery.deletable(MyTask1Ext.class).disableLogicDelete().allowDeleteStatement(true).where(o -> o.id().isNotNull()).executeRows();
+        easyEntityQuery.deletable(MyTask2Ext.class).disableLogicDelete().allowDeleteStatement(true).where(o -> o.id().isNotNull()).executeRows();
         ArrayList<SysBank> banks = new ArrayList<>();
         ArrayList<SysBankCard> bankCards = new ArrayList<>();
         ArrayList<SysUser> users = new ArrayList<>();
@@ -226,6 +238,77 @@ public class BaseTest {
         ArrayList<M8AreaBuild> builds = new ArrayList<>();
         ArrayList<M8AreaBuildLicense> buildLicenses = new ArrayList<>();
         ArrayList<OffsetChunkTest> offsetChunkTests = new ArrayList<>();
+        ArrayList<MyTask> myTasks = new ArrayList<>();
+        ArrayList<MySubTask1> mySubTask1s = new ArrayList<>();
+        ArrayList<MySubTask2> mySubTask2s = new ArrayList<>();
+        ArrayList<MyTask1Ext> myTask1Exts = new ArrayList<>();
+        ArrayList<MyTask2Ext> myTask2Exts = new ArrayList<>();
+        {
+            {
+                MyTask myTask = new MyTask();
+                myTask.setId("v1");
+                myTask.setName("任务1");
+                myTask.setVersion(1L);
+                myTasks.add(myTask);
+            }
+            {
+                MyTask myTask = new MyTask();
+                myTask.setId("v2");
+                myTask.setName("任务2");
+                myTask.setVersion(2L);
+                myTasks.add(myTask);
+            }
+            {
+                MyTask myTask = new MyTask();
+                myTask.setId("v3");
+                myTask.setName("任务3");
+                myTask.setVersion(3L);
+                myTasks.add(myTask);
+            }
+            {
+                MySubTask1 mySubTask1 = new MySubTask1();
+                mySubTask1.setId("v1s1");
+                mySubTask1.setTaskId("v1");
+                mySubTask1.setName("任务1的子任务1");
+                mySubTask1s.add(mySubTask1);
+            }
+            {
+                MySubTask1 mySubTask1 = new MySubTask1();
+                mySubTask1.setId("v1s2");
+                mySubTask1.setTaskId("v1");
+                mySubTask1.setName("任务1的子任务2");
+                mySubTask1s.add(mySubTask1);
+            }
+            {
+                MySubTask2 mySubTask2 = new MySubTask2();
+                mySubTask2.setId("v2s1");
+                mySubTask2.setTaskId("v2");
+                mySubTask2.setName("任务2的子任务1");
+                mySubTask2s.add(mySubTask2);
+            }
+            {
+                MySubTask2 mySubTask2 = new MySubTask2();
+                mySubTask2.setId("v2s2");
+                mySubTask2.setTaskId("v2");
+                mySubTask2.setName("任务2的子任务1");
+                mySubTask2s.add(mySubTask2);
+            }
+            {
+                MyTask1Ext myTask1Ext = new MyTask1Ext();
+                myTask1Ext.setId("v1");
+                myTask1Ext.setTaskId("v1");
+                myTask1Ext.setName("任务1的扩展1");
+                myTask1Exts.add(myTask1Ext);
+            }
+            {
+                MyTask2Ext myTask2Ext = new MyTask2Ext();
+                myTask2Ext.setId("v2");
+                myTask2Ext.setTaskId("v2");
+                myTask2Ext.setName("任务2的扩展1");
+                myTask2Exts.add(myTask2Ext);
+            }
+
+        }
         {
             SysBank sysBank = new SysBank();
             sysBank.setId("1");
@@ -566,6 +649,12 @@ public class BaseTest {
         easyEntityQuery.insertable(builds).batch().executeRows();
         easyEntityQuery.insertable(buildLicenses).batch().executeRows();
         easyEntityQuery.insertable(mycomments).batch().executeRows();
+
+        easyEntityQuery.insertable(myTasks).batch().executeRows();
+        easyEntityQuery.insertable(mySubTask1s).batch().executeRows();
+        easyEntityQuery.insertable(mySubTask2s).batch().executeRows();
+        easyEntityQuery.insertable(myTask1Exts).batch().executeRows();
+        easyEntityQuery.insertable(myTask2Exts).batch().executeRows();
         easyEntityQuery.insertable(Linq.of(parentChildren).orderBy(s -> s.getId()).toList()).batch().executeRows();
         easyEntityQuery.insertable(Linq.of(children).orderBy(s -> s.getId()).toList()).batch().executeRows();
 

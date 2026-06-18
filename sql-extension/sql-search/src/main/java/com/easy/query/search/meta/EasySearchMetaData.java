@@ -4,7 +4,7 @@ import com.easy.query.search.EasySearchConfiguration;
 import com.easy.query.search.annotation.EasyCond;
 import com.easy.query.search.exception.EasySearchInternalException;
 import com.easy.query.search.match.EasyTableMatch;
-import com.easy.query.core.annotation.NotNull;
+import org.jetbrains.annotations.NotNull;;
 import com.easy.query.core.metadata.ColumnMetadata;
 import com.easy.query.core.metadata.EntityMetadata;
 import com.easy.query.core.metadata.EntityMetadataManager;

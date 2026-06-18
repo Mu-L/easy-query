@@ -17,13 +17,10 @@ import com.easy.query.core.basic.api.select.impl.EasyCteClientQueryable;
 import com.easy.query.core.basic.api.select.provider.SQLExpressionProvider;
 import com.easy.query.core.basic.extension.interceptor.Interceptor;
 import com.easy.query.core.basic.extension.interceptor.PredicateFilterInterceptor;
-import com.easy.query.core.basic.jdbc.executor.ExecutorContext;
 import com.easy.query.core.basic.jdbc.executor.internal.common.SQLRewriteUnit;
 import com.easy.query.core.basic.jdbc.parameter.ToSQLContext;
 import com.easy.query.core.common.RelationColumnResult;
-import com.easy.query.core.configuration.EasyQueryOption;
 import com.easy.query.core.context.QueryRuntimeContext;
-import com.easy.query.core.enums.ExecuteMethodEnum;
 import com.easy.query.core.enums.MultiTableTypeEnum;
 import com.easy.query.core.enums.PartitionOrderEnum;
 import com.easy.query.core.exception.EasyQueryInvalidOperationException;
@@ -678,7 +675,8 @@ public class EasySQLExpressionUtil {
             SQLBuilderSegment projects = entityQueryExpressionBuilder.getProjects();
             for (Map.Entry<NavigateMetadata, IncludeNavigateExpression> navigateKV : includes.entrySet()) {
                 NavigateMetadata navigateMetadata = navigateKV.getKey();
-                String[] selfPropertiesOrPrimary = navigateMetadata.getSelfPropertiesOrPrimary();
+                String[] selfPropertiesOrPrimary = navigateMetadata.getSelfPropertiesOrPrimaryAndMemoryFilterDependencies();
+//                String[] selfPropertiesOrPrimary = navigateMetadata.getSelfPropertiesOrPrimary();
                 appendSelfRelationColumn(projects, sqlNative, table, navigateMetadata, relationExtraMetadata, selfPropertiesOrPrimary);
             }
         }

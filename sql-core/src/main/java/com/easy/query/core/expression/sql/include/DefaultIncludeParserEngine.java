@@ -1,10 +1,12 @@
 package com.easy.query.core.expression.sql.include;
 
 import com.easy.query.core.basic.api.select.ClientQueryable;
+import com.easy.query.core.basic.extension.navigate.MemoryFilterConfiguration;
 import com.easy.query.core.context.QueryRuntimeContext;
 import com.easy.query.core.enums.RelationTypeEnum;
 import com.easy.query.core.exception.EasyQueryInvalidOperationException;
 import com.easy.query.core.expression.lambda.SQLFuncExpression;
+import com.easy.query.core.expression.lambda.SQLFuncExpression1;
 import com.easy.query.core.expression.parser.core.base.ColumnAsSelector;
 import com.easy.query.core.expression.parser.core.base.ColumnSelector;
 import com.easy.query.core.expression.parser.core.extra.ExtraAutoIncludeConfigure;
@@ -23,6 +25,7 @@ import com.easy.query.core.metadata.NavigateMetadata;
 import com.easy.query.core.metadata.RelationExtraColumn;
 import com.easy.query.core.metadata.RelationExtraMetadata;
 import com.easy.query.core.util.EasyArrayUtil;
+import com.easy.query.core.util.EasyBoolUtil;
 import com.easy.query.core.util.EasyClassUtil;
 import com.easy.query.core.util.EasyCollectionUtil;
 import com.easy.query.core.util.EasyIncludeUtil;
@@ -148,6 +151,22 @@ public class DefaultIncludeParserEngine implements IncludeParserEngine {
         }
     }
 
+    private < TR> List<RelationExtraEntity> getRelationExtraEntitiesByIncludeCondition(ExpressionContext expressionContext, List<TR> result,  NavigateMetadata navigateMetadata) {
+
+        List<RelationExtraEntity> relationExtraEntities = getRelationExtraEntities(expressionContext, result);
+        MemoryFilterConfiguration memoryFilterConfiguration = navigateMetadata.getMemoryFilterConfiguration();
+        if (memoryFilterConfiguration == null) {
+            return relationExtraEntities;
+        }
+        return relationExtraEntities
+                .stream()
+                .filter(o -> {
+                    String[] dependencies = memoryFilterConfiguration.getDependencies();
+                    return memoryFilterConfiguration.canInclude(o.getRelationExtraColumns(dependencies).getValues());
+                }).collect(Collectors.toList());
+    }
+
+
     @Override
     public <TR> IncludeParserResult process(ExpressionContext expressionContext, EntityMetadata entityMetadata, List<TR> result, IncludeNavigateExpression includeExpression) {
         IncludeNavigateParams includeNavigateParams = includeExpression.getIncludeNavigateParams();
@@ -160,7 +179,7 @@ public class DefaultIncludeParserEngine implements IncludeParserEngine {
         QueryRuntimeContext runtimeContext = expressionContext.getRuntimeContext();
         //检查导航属性类型防止无法关联上导致报错
         checkNavigatePropertyType(navigateMetadata, runtimeContext);
-        List<RelationExtraEntity> relationExtraEntities = getRelationExtraEntities(expressionContext, result);
+        List<RelationExtraEntity> relationExtraEntities = getRelationExtraEntitiesByIncludeCondition(expressionContext, result,navigateMetadata);
         IncludeParseContext includeParseContext = new IncludeParseContext(includeNavigateParams);
         includeParseContext.setIncludeQueryableExpression(queryableExpression);
 //        includeParseContext.setIncludeMappingQueryableFunction(includeNavigateParams.getMappingQueryableFunction());

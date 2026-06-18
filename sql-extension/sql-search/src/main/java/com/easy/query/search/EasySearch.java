@@ -1,9 +1,9 @@
 package com.easy.query.search;
 
-import com.easy.query.core.annotation.NotNull;
+import org.jetbrains.annotations.NotNull;;
 import com.easy.query.search.match.EasyTableMatch;
 import com.easy.query.search.param.ParamMap;
-import com.easy.query.core.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import com.easy.query.core.api.dynamic.sort.ObjectSort;
 import com.easy.query.core.api.dynamic.sort.ObjectSortBuilder;
 

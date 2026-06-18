@@ -1,12 +1,12 @@
 package com.easy.query.search.op;
 
 import com.easy.query.search.util.EasyValueUtil;
-import com.easy.query.core.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import com.easy.query.core.enums.SQLRangeEnum;
 import com.easy.query.core.expression.builder.Filter;
 import com.easy.query.core.expression.parser.core.available.TableAvailable;
 import com.easy.query.core.metadata.ColumnMetadata;
-import com.easy.query.core.annotation.NotNull;
+import org.jetbrains.annotations.NotNull;;
 
 import java.util.List;
 

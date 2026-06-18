@@ -1,6 +1,6 @@
 package com.easy.query.core.proxy;
 
-import com.easy.query.core.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import com.easy.query.core.context.EmptyQueryRuntimeContext;
 import com.easy.query.core.exception.EasyQueryInvalidOperationException;
 import com.easy.query.core.expression.implicit.EntityRelationPropertyProvider;

@@ -1,5 +1,6 @@
 package com.easy.query.core.metadata;
 
+import com.easy.query.core.basic.extension.navigate.MemoryFilterConfiguration;
 import com.easy.query.core.enums.PartitionOrderEnum;
 import com.easy.query.core.enums.RelationTypeEnum;
 import com.easy.query.core.enums.CascadeTypeEnum;
@@ -34,6 +35,7 @@ public class NavigateOption {
     private String[] targetMappingProperties;
     private SQLActionExpression1<WherePredicate<?>> predicateFilterExpression;
     private SQLActionExpression1<WherePredicate<?>> predicateMappingClassFilterExpression;
+    private MemoryFilterConfiguration memoryFilterConfiguration;
     private EntityRelationPropertyProvider entityRelationPropertyProvider;
     private boolean required = false;
     private boolean subQueryToGroupJoin = false;
@@ -131,6 +133,14 @@ public class NavigateOption {
 
     public void setPredicateMappingClassFilterExpression(SQLActionExpression1<WherePredicate<?>> predicateMappingClassFilterExpression) {
         this.predicateMappingClassFilterExpression = predicateMappingClassFilterExpression;
+    }
+
+    public MemoryFilterConfiguration getMemoryFilterConfiguration() {
+        return memoryFilterConfiguration;
+    }
+
+    public void setMemoryFilterConfiguration(MemoryFilterConfiguration memoryFilterConfiguration) {
+        this.memoryFilterConfiguration = memoryFilterConfiguration;
     }
 
     public boolean isBasicType() {
