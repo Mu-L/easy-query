@@ -13,7 +13,7 @@ import com.easy.query.core.proxy.ProxyEntity;
 public interface NavigateInclude<TPropertyProxy extends ProxyEntity<TPropertyProxy, TProperty>, TProperty> {
 
     NavigateInclude<TPropertyProxy, TProperty> where(SQLActionExpression1<TPropertyProxy> filter);
-
+    NavigateInclude<TPropertyProxy, TProperty> orderBy(SQLActionExpression1<TPropertyProxy> orderBy);
     NavigateInclude<TPropertyProxy, TProperty> limit(long offset, long rows);
 
      <TRProxy extends ProxyEntity<TRProxy, TR>, TR> NavigateInclude<TPropertyProxy, TProperty> select(SQLFuncExpression1<TPropertyProxy, TRProxy> selector);
