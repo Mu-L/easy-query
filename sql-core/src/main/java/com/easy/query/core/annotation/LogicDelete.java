@@ -23,4 +23,5 @@ public @interface LogicDelete {
      * @return
      */
     String strategyName() default "";
+//    Class<? extends LogicDeleteStrategy> strategyBy() default "";
 }

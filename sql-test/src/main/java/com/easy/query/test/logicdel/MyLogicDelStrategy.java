@@ -19,10 +19,6 @@ import java.util.Set;
  */
 //@Component //如果是spring
 public class MyLogicDelStrategy extends AbstractLogicDeleteStrategy {
-    /**
-     * 允许datetime类型的属性
-     */
-    private final Set<Class<?>> allowTypes = new HashSet<>(Arrays.asList(LocalDateTime.class));
 
 
     @Override
