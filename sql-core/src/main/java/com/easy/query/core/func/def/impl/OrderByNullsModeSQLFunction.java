@@ -1,6 +1,6 @@
 package com.easy.query.core.func.def.impl;
 
-import org.jetbrains.annotations.NotNull;;
+import org.jetbrains.annotations.NotNull;
 import com.easy.query.core.expression.parser.core.available.TableAvailable;
 import com.easy.query.core.func.column.ColumnExpression;
 import com.easy.query.core.func.def.AbstractExpressionSQLFunction;

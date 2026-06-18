@@ -1,7 +1,7 @@
 package com.easy.query.search.executor;
 
 import com.easy.query.search.op.Op;
-import org.jetbrains.annotations.NotNull;;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Comparator;

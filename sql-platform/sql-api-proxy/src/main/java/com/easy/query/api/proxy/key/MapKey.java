@@ -1,6 +1,6 @@
 package com.easy.query.api.proxy.key;
 
-import org.jetbrains.annotations.NotNull;;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.easy.query.core.util.EasyObjectUtil;
 

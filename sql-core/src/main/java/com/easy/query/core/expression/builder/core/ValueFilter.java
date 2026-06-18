@@ -1,6 +1,5 @@
 package com.easy.query.core.expression.builder.core;
 
-import org.jetbrains.annotations.NotNull;;
 import com.easy.query.core.expression.parser.core.available.TableAvailable;
 
 /**
@@ -11,5 +10,5 @@ import com.easy.query.core.expression.parser.core.available.TableAvailable;
  */
 @FunctionalInterface
 public interface ValueFilter {
-    boolean accept(@NotNull TableAvailable table, @NotNull String property, Object value);
+    boolean accept(TableAvailable table, String property, Object value);
 }

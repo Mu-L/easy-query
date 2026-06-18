@@ -1,6 +1,6 @@
 package com.easy.query.search;
 
-import org.jetbrains.annotations.NotNull;;
+import org.jetbrains.annotations.NotNull;
 import com.easy.query.search.match.EasyTableMatch;
 import com.easy.query.search.param.ParamMap;
 import org.jetbrains.annotations.Nullable;

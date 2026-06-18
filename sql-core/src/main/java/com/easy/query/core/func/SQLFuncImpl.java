@@ -1,6 +1,6 @@
 package com.easy.query.core.func;
 
-import org.jetbrains.annotations.NotNull;;
+import org.jetbrains.annotations.NotNull;
 import com.easy.query.core.enums.SQLLikeEnum;
 import com.easy.query.core.expression.lambda.SQLActionExpression1;
 import com.easy.query.core.expression.parser.core.SQLTableOwner;

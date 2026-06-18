@@ -1,6 +1,6 @@
 package com.easy.query.search.executor;
 
-import org.jetbrains.annotations.NotNull;;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.easy.query.search.match.EasyTableMatch;
 import com.easy.query.search.meta.EasyCondMetaData;

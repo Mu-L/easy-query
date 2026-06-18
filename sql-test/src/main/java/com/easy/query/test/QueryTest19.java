@@ -3,7 +3,7 @@ package com.easy.query.test;
 import com.alibaba.fastjson2.JSON;
 import com.easy.query.api.proxy.base.LocalDateTimeProxy;
 import com.easy.query.api.proxy.entity.select.EntityQueryable;
-import org.jetbrains.annotations.NotNull;;
+import org.jetbrains.annotations.NotNull;
 import com.easy.query.core.basic.api.flat.MapQueryable;
 import com.easy.query.core.basic.api.select.ClientQueryable;
 import com.easy.query.core.basic.extension.listener.JdbcExecuteAfterArg;

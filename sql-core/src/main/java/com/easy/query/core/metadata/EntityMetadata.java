@@ -14,7 +14,7 @@ import com.easy.query.core.annotation.NavigateFlat;
 import com.easy.query.core.annotation.NavigateJoin;
 import com.easy.query.core.annotation.NavigateSetter;
 import com.easy.query.core.basic.extension.navigate.MemoryFilterConfiguration;
-import org.jetbrains.annotations.NotNull;;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.easy.query.core.annotation.SaveKey;
 import com.easy.query.core.annotation.ShardingDataSourceKey;

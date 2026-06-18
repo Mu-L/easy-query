@@ -6,7 +6,7 @@ import com.easy.query.core.enums.SQLRangeEnum;
 import com.easy.query.core.expression.builder.Filter;
 import com.easy.query.core.expression.parser.core.available.TableAvailable;
 import com.easy.query.core.metadata.ColumnMetadata;
-import org.jetbrains.annotations.NotNull;;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
