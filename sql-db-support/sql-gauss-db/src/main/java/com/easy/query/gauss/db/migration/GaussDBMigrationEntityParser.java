@@ -21,7 +21,7 @@ public class GaussDBMigrationEntityParser extends DefaultMigrationEntityParser {
     private static final Map<Class<?>, ColumnDbTypeResult> columnTypeMap = new HashMap<>();
 
     static {
-        columnTypeMap.put(boolean.class, new ColumnDbTypeResult("BOOL", "0"));
+        columnTypeMap.put(boolean.class, new ColumnDbTypeResult("BOOL", "false"));
         columnTypeMap.put(Boolean.class, new ColumnDbTypeResult("BOOL", null));
         columnTypeMap.put(float.class, new ColumnDbTypeResult("FLOAT4", "0"));
         columnTypeMap.put(Float.class, new ColumnDbTypeResult("FLOAT4", null));

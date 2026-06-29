@@ -22,7 +22,7 @@ public class DuckDBSQLMigrationEntityParser extends DefaultMigrationEntityParser
     private static final Map<Class<?>, ColumnDbTypeResult> columnTypeMap = new HashMap<>();
 
     static {
-        columnTypeMap.put(boolean.class, new ColumnDbTypeResult("BOOLEAN", "0"));
+        columnTypeMap.put(boolean.class, new ColumnDbTypeResult("BOOLEAN", "false"));
         columnTypeMap.put(Boolean.class, new ColumnDbTypeResult("BOOLEAN", null));
         columnTypeMap.put(float.class, new ColumnDbTypeResult("REAL", "0"));
         columnTypeMap.put(Float.class, new ColumnDbTypeResult("REAL", null));
