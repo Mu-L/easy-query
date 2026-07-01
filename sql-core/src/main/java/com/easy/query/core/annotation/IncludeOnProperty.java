@@ -16,7 +16,21 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Repeatable(IncludeOnProperties.class)
 public @interface IncludeOnProperty {
+    /**
+     * 属性名
+     * @return
+     */
     String name();
+
+    /**
+     * 这个值为读取到内存对象的属性的值然后进行toString操作得到的
+     * @return
+     */
     String value();
+
+    /**
+     * 是否匹配null值
+     * @return
+     */
     boolean matchNull() default false;
 }
