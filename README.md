@@ -39,6 +39,9 @@
 - [GITHUB](https://github.com/dromara/easy-query)  GITHUB镜像地址
 - [GITEE](https://gitee.com/dromara/easy-query)  GITEE镜像地址
 
+## ai skill
+https://github.com/wzszsw/easy-query-orm
+
 ## 📚 documentation
 <div align="center">
 
