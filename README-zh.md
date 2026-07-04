@@ -40,7 +40,7 @@
 
 <p>
   <a href="https://yxai.chat" target="_blank">
-   <img alt="xinyi-Logo" src="./imgs/adv/xinyi.png" height="50px">
+   <img alt="yixin-Logo" src="./imgs/adv/yixin.png" height="50px">
   </a>
 </p>
 
