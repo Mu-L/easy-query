@@ -35,6 +35,13 @@
       <a href='https://gitcode.com/dromara/easy-query'><img src='https://gitcode.com/dromara/easy-query/star/badge.svg' alt='fork'></a>
 </p>
 
+## Special user
+
+<p>
+  <a href="https://yxai.chat/" target="_blank">
+   <img alt="xinyi-Logo" src="./imgs/adv/xinyi.png" height="50px">
+  </a>
+</p>
 
 - [GITHUB](https://github.com/dromara/easy-query)  GITHUB镜像地址
 - [GITEE](https://gitee.com/dromara/easy-query)  GITEE镜像地址
