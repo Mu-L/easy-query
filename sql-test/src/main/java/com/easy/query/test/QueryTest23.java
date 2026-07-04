@@ -626,6 +626,11 @@ public class QueryTest23 extends BaseTest {
                 .where(t_blog -> {
                     t_blog.expression().stringFormat("你好:{0}我叫{1}你好吗?我今年{2}岁了,{0}你呢", t_blog.title(), t_blog.star(), 12)
                             .eq("比较一下");
+//                    t_blog.expression().stringFormat("-{0}", t_blog.title()).eq("-你好");
+//                    t_blog.expression().constant("-").concat(t_blog.title());
+//
+//                    t_blog.score().multiply(BigDecimal.valueOf(-1))
+//                    t_blog.star().multiply(-1);
                 }).toList();
 
         listenerContextManager.clear();
